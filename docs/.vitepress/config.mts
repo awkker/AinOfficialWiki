@@ -12,7 +12,7 @@ export default defineConfig({
       { text: '讲义', link: '/handouts' },
       { text: '幻灯片', link: '/slides' },
       { text: '教程', link: '/guides/devcpp-guide' },
-      { text: '资源', link: 'resource/2025-lesson0'},
+      { text: '资源', link: 'resource/lesson0-2025'},
       { text: '竞赛', link: 'competition' }
     ],
 
@@ -32,20 +32,20 @@ export default defineConfig({
       {
         text: 'guides',
         items: [
-      { text: 'Dev教程', link: '/guides/devcpp-guide' }, //教程罗列
+      { text: 'DevC++使用教程', link: '/guides/devcpp-guide' }, //教程罗列
         ]
       },
       {
         text: 'resource',
         items: [
-      { text: '2025年第零堂课', link: 'resource/2025-lesson0'}, 
-      { text: '2025年见面会', link: '/resource/2025见面会'},//第0课等
+      { text: '2025年第0节课', link: 'resource/lesson0-2025'}, 
+      { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025'},//第0课等
         ]
       },
       {
         text: 'competition',
         items: [
-      { text: 'competition', link: 'competition' } //竞赛相关文章罗列
+      { text: '2025年教育部认可全国大学生学科竞赛榜单（按月份整理）', link: 'competition/competition-list-2025' } //竞赛相关文章罗列
         ]
       }
     ],

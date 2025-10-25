@@ -18,13 +18,13 @@ hero:
       link: /slides 
     - theme: alt
       text:  教程
-      link: /guides
+      link: /guides/devcpp-guide.md
     - theme: alt
       text: 资源
-      link: resource/2025-lesson0.md
+      link: /resource/lesson0-2025
     - theme: alt
       text: 竞赛
-      link: /competition
+      link: /competition/competition-list-2025
 features:
   - title: 讲义&幻灯片
     details: C/c++，算法，Python等课程讲义...
