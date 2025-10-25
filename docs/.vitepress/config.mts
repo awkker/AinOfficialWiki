@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/vitepress/',
   title: "Welcome to all in nanami's wiki",
   description: 'Handouts,slides,guides,resource',
   themeConfig: {
