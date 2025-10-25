@@ -45,7 +45,7 @@ export default defineConfig({
       {
         text: 'competition',
         items: [
-      { text: '2025年教育部认可全国大学生学科竞赛榜单（按月份整理）', link: 'competition/competition-list-2025' } //竞赛相关文章罗列
+      { text: '2025年教育部认可全国大学生学科竞赛榜单（按月份整理）', link: 'competition/competition-lists-2025' } //竞赛相关文章罗列
         ]
       }
     ],
