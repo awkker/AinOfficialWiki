@@ -12,7 +12,7 @@ hero:
       link: https://qm.qq.com/q/ZlktjRUdqg
     - theme: alt
       text: 讲义
-      link: /Handouts
+      link: /handouts
     - theme: alt
       text: 幻灯片
       link: /slides 

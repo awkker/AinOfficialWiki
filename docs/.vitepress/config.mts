@@ -9,7 +9,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '主页', link: '/' },
-      { text: '讲义', link: '/Handouts' },
+      { text: '讲义', link: '/handouts' },
       { text: '幻灯片', link: '/slides' },
       { text: '教程', link: '/guides/Dev' },
       { text: '资源', link: '/resource/2025'},
@@ -18,9 +18,9 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Handouts',
+        text: 'handouts',
         items: [
-          { text: 'Handouts', link: '/Handouts' }, //讲义文章罗列
+          { text: 'handouts', link: '/handouts' }, //讲义文章罗列
         ]
       },
       {
