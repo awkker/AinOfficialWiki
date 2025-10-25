@@ -39,6 +39,7 @@ export default defineConfig({
         text: 'resource',
         items: [
       { text: '2025年第零堂课', link: '/resource/2025'}, //第0课等
+      { text: '2025年见面会', link: '/resource/2025见面会'},
         ]
       },
       {
