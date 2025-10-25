@@ -3,32 +3,36 @@
 layout: home
 
 hero:
-  name: "all in nanami's wiki"
-  text: "编程组"
-  tagline: The beginning of everything
-  # actions:
-  #   - theme: brand
-  #     text: Handouts
-  #     link: /Handouts
-  #   - theme: brand
-  #     text: slides
-  #     link: /slides 
-  #   - theme: brand
-  #     text:  guides
-  #     link: /guides/dev
-  #   - theme: brand
-  #     text: resource
-  #     link: /resource/2025.md 
+  name: "3D环梦工坊"
+  text: "编程竞赛组"
+  tagline: 3D环梦工坊编程竞赛组官方网站&知识库
+  actions:
+    - theme: brand
+      text: QQ群
+      link: https://qm.qq.com/q/ZlktjRUdqg
+    - theme: alt
+      text: 讲义
+      link: /Handouts
+    - theme: alt
+      text: 幻灯片
+      link: /slides 
+    - theme: alt
+      text:  教程
+      link: /guides
+    - theme: alt
+      text: 资源
+      link: /resource/2025.md
+    - theme: alt
+      text: 竞赛
+      link: /competition
 features:
-  - title: Handouts
-    details: C/c++ c-cpp,算法,python,linux...
-  - title: slides
-    details: C/c++,算法,python,linux 
-  - title: guides
-    details: IDE,平台使用,系统安装...
-  - title: resource
-    details: 入门指南:新手的第零节课
-  - title: competition
-    details: 竞赛指南
+  - title: 讲义&幻灯片
+    details: C/c++，算法，Python等课程讲义...
+  - title: 教程
+    details: IDE，平台使用，系统安装...
+  - title: 资源
+    details: 各类学习资源
+  - title: 竞赛
+    details: 竞赛信息和指南
 ---
 

@@ -3,17 +3,17 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/vitepress/',
-  title: "Welcome to all in nanami's wiki",
-  description: 'Handouts,slides,guides,resource',
+  title: "3D环梦工坊编程竞赛组",
+  description: '官方网站&知识库',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Handouts', link: '/Handouts' },
-      { text: 'slides', link: '/slides' },
-      { text: 'guides', link: '/guides/Dev' },
-      { text: 'resource', link: '/resource/2025'},
-      { text: 'competition', link: 'competition' }
+      { text: '主页', link: '/' },
+      { text: '讲义', link: '/Handouts' },
+      { text: '幻灯片', link: '/slides' },
+      { text: '教程', link: '/guides/Dev' },
+      { text: '资源', link: '/resource/2025'},
+      { text: '竞赛', link: 'competition' }
     ],
 
     sidebar: [
@@ -51,7 +51,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://ain.hmgf.hxcn.space' }
     ]
   }
 })
