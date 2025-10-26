@@ -1,0 +1,14 @@
+# 讲义
+
+这里是编程竞赛组的课程讲义集合
+
+## 可用讲义
+
+- [Markdown 示例](./Handouts/markdown-examples.md) - 展示 VitePress 中 Markdown 的各种用法
+
+## 即将推出
+
+更多讲义正在准备中，敬请期待！
+
+如果你想贡献讲义，欢迎联系我们。
+

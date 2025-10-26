@@ -1,10 +1,20 @@
 {
   "devDependencies": {
+    "@slidev/cli": "^52.6.0",
+    "@slidev/theme-default": "^0.25.0",
+    "concurrently": "^9.2.1",
     "vitepress": "^2.0.0-alpha.12"
   },
   "scripts": {
+    "dev": "concurrently \"npm run docs:dev\" \"npm run slides:dev\" \"npm run slides:2025\" --names \"docs,demo,2025\" --prefix-colors \"cyan,magenta,green\"",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "slides:dev": "slidev slides/demo.md --port 3030",
+    "slides:build": "slidev build slides/demo.md",
+    "slides:export": "slidev export slides/demo.md",
+    "slides:2025": "slidev slides/2025-guide.md --port 3031",
+    "slides:2025:build": "slidev build slides/2025-guide.md",
+    "slides:2025:export": "slidev export slides/2025-guide.md"
   }
 }
