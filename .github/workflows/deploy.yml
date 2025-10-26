@@ -18,33 +18,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'  # 缓存依赖加速构建
+          cache: 'npm'  # 缓存依赖，加速安装
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci  # 安装 package.json 中的所有依赖（包括 @slidev/cli）
 
-      # 1. 编译 demo 幻灯片（输出到 VitePress 的 dist 目录下）
+      # 编译 3 个幻灯片（使用 npx 调用本地安装的 slidev，确保命令可识别）
       - name: Build demo slides
-        run: slide          slidev build docs/slides/demo.md --out docs/.vitepress/dist/slides/demo
+        run: npx slidev build docs/slides/demo.md --out docs/.vitepress/dist/slides/demo
 
-      # 2. 编译 2025-guide 幻灯片
       - name: Build 2025-guide slides
-        run:
-          slidev build docs/slides/2025-guide.md --out docs/.vitepress/dist/slides/2025
+        run: npx slidev build docs/slides/2025-guide.md --out docs/.vitepress/dist/slides/2025
 
-      # 3. 编译 cpp-basics 幻灯片
       - name: Build cpp-basics slides
-        run:
-          slidev build docs/slides/cpp-basics.md --out docs/.vitepress/dist/slides/cpp
+        run: npx slidev build docs/slides/cpp-basics.md --out docs/.vitepress/dist/slides/cpp
 
-      # 构建 VitePress 文档（此时已包含所有幻灯片）
+      # 构建 VitePress 文档（包含已编译的幻灯片）
       - name: Build VitePress site
         run: npm run docs:build
 
+      # 上传包含文档和幻灯片的最终产物
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist  # 包含文档和3个幻灯片的最终目录
+          path: docs/.vitepress/dist
 
   deploy:
     needs: build
