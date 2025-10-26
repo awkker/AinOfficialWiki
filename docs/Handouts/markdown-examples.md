@@ -90,17 +90,17 @@ You can embed interactive presentations created with Slidev directly in VitePres
  <!--  style增加轻微阴影和圆角，匹配 VitePress 轻量设计风格 -->
   <!-- title="Slidev Demo: Markdown Extensions in Action" 明确标题，提升无障碍性 -->
   <!-- allow="fullscreen" 和 allowfullscreen 允许全屏显示 -->
-<iframe 
-  src="http://localhost:3030"    
-  width="100%" 
-  height="720"    
-  frameborder="0"  
-  scrolling="yes" 
-  allow="fullscreen"
-  allowfullscreen
-  style="border-radius: 6px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);"  
-  title="Slidev Demo: Markdown Extensions in Action" 
-></iframe>
+::: warning 幻灯片访问说明
+由于幻灯片需要单独启动服务，请按照以下步骤访问：
+
+1. **本地开发环境**：运行 `npm run slides:dev` 启动演示幻灯片
+2. **访问地址**：http://localhost:3030
+3. **生产环境**：需要单独部署幻灯片服务
+
+或者直接点击下方链接访问：
+:::
+
+[💻 查看演示幻灯片](../slides/demo.md)
 ## More
 
 Check out the documentation for the [full list of markdown extensions](https://vitepress.dev/guide/markdown).

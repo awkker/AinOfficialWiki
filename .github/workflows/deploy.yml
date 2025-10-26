@@ -3,7 +3,7 @@ name: Deploy VitePress site to Pages
 on:
   push:
     branches:
-      - main
+      - main  # 当 main 分支有 push 操作时触发
 
 permissions:
   contents: read
@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # 如果你的项目包含 Git LFS 文件，取消下一行的注释
+          # lfs: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -24,35 +27,33 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci # 使用 ci 更适合自动化环境，能确保依赖版本一致性
 
-      # 🌟 修正步驟：安裝 Playwright Chromium 核心
-      # 這是 Slidev 匯出（build）功能所必須的依賴，用於解決之前的錯誤。
-      - name: Install Playwright for Slidev Export
-        run: npm install playwright-chromium --save-dev
-
-      # 编译 3 个幻灯片（使用 npx 调用本地安装的 slidev，确保命令可识别）
+      # 🌟 关键步骤 1：编译所有幻灯片并输出到 public 目录
+      # VitePress 会自动将 public 目录下的内容复制到最终网站的根目录。
+      # 这是确保幻灯片链接正确的最佳实践。
       - name: Build demo slides
-        run: npx slidev build docs/slides/demo.md --out docs/.vitepress/dist/slides/demo
+        run: npx slidev build docs/slides/demo.md --out docs/public/slides/demo
 
       - name: Build 2025-guide slides
-        run: npx slidev build docs/slides/2025-guide.md --out docs/.vitepress/dist/slides/2025
+        run: npx slidev build docs/slides/2025-guide.md --out docs/public/slides/2025
 
       - name: Build cpp-basics slides
-        run: npx slidev build docs/slides/cpp-basics.md --out docs/.vitepress/dist/slides/cpp
+        run: npx slidev build docs/slides/cpp-basics.md --out docs/public/slides/cpp-basics # 注意这里我把输出目录改成了 cpp-basics，以匹配你的 config.js
 
-      # 构建 VitePress 文档（包含已编译的幻灯片）
+      # 🌟 关键步骤 2：构建 VitePress 网站
+      # 此时，VitePress 会将文档和 public 目录下的幻灯片一起打包。
       - name: Build VitePress site
         run: npm run docs:build
 
-      # 上传包含文档和幻灯片的最终产物
+      # 🌟 关键步骤 3：上传最终构建好的产物，以供部署
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/.vitepress/dist
 
   deploy:
-    needs: build
+    needs: build # 依赖 build 任务成功完成
     runs-on: ubuntu-latest
     environment:
       name: github-pages

@@ -100,6 +100,21 @@ vitepress/
 
 **重要：** 必须添加 `allow="fullscreen"` 和 `allowfullscreen` 属性，否则全屏按钮无法工作。
 
+## ⚠️ 幻灯片访问说明
+
+由于幻灯片需要单独启动服务，在生产环境中无法直接通过iframe访问。我们提供了以下解决方案：
+
+### 本地开发环境
+- 运行 `npm run dev` 一键启动所有服务
+- 或者单独启动幻灯片服务：
+  - `npm run slides:dev` - 演示幻灯片 (端口3030)
+  - `npm run slides:2025` - 2025新生指南 (端口3031)  
+  - `npm run slides:cpp` - C++基础教程 (端口3032)
+
+### 生产环境部署
+- 需要单独部署幻灯片服务
+- 或者直接访问幻灯片源文件：`docs/slides/` 目录下的 `.md` 文件
+
 ## 🔗 相关链接
 
 - [VitePress 文档](https://vitepress.dev/)
