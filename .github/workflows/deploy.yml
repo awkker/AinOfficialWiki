@@ -3,24 +3,20 @@
 name: Deploy VitePress site to Pages
 
 on:
-  # 在推送到 main 分支时运行
   push:
     branches:
       - main
 
-# GITHUB_TOKEN 的权限设置，以允许部署到 GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 只允许一个并发部署，防止旧的部署覆盖新的部署
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # 构建任务
   build:
     runs-on: ubuntu-latest
     steps:
@@ -36,6 +32,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # ✨ 关键解决方案：在这里单独安装 Playwright
+      # 这个步骤专门为 Slidev 的构建（build）功能安装它所必需的浏览器引擎。
+      - name: Install Playwright Browsers for Slidev
+        run: npx playwright install --with-deps chromium
+
       - name: Build Slidev presentations
         run: |
           npx slidev build slides/2025-guide.md --out docs/public/slides/2025-guide
@@ -50,7 +51,6 @@ jobs:
         with:
           path: docs/.vitepress/dist
 
-  # 部署任务
   deploy:
     needs: build
     runs-on: ubuntu-latest
