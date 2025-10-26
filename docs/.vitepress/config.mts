@@ -27,9 +27,9 @@ export default defineConfig({
       {
         text: '幻灯片',
         items: [
-      { text: 'slides', link: '/slides/2025-guide' }, 
-         { text: 'slides', link: '/slides/cpp-basics' }, 
-       { text: 'slides', link: '/slides/demo' }, //PPT罗列
+      { text: '2025-指南', link: '/slides/2025-guide' }, 
+      { text: 'c的PPt', link: '/slides/cpp-basics' }, 
+      { text: '演示示例', link: '/slides/demo' }, //PPT罗列
         ]
       },
       {
