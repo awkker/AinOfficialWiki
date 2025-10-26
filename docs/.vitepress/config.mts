@@ -45,7 +45,7 @@ export default defineConfig({
         text: '教程',
         items: [
           { text: 'DevC++使用教程', link: '/guides/devcpp-guide' },
-          { text: 'Virtual Judge 使用指南', link: '/resource/virtual-judge-guide'},
+          { text: 'Virtual Judge 使用指南', link: '/guides/virtual-judge-guide'},
         ]
       },
       {
