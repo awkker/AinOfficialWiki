@@ -18,7 +18,7 @@ hero:
       link: /slides 
     - theme: alt
       text:  教程
-      link: /guides/devcpp-guide.md
+      link: /guides/devcpp-guide
     - theme: alt
       text: 资源
       link: /resource/lesson0-2025
