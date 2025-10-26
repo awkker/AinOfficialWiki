@@ -28,7 +28,9 @@ export default defineConfig({
       {
         text: '讲义',
         items: [
-          { text: 'handouts', link: '/handouts' },
+          { text: '讲义总览', link: '/handouts' },
+          { text: 'C++ 输入输出与基础', link: '/handouts/lesson1-cpp-2025' },
+          { text: 'Markdown 示例', link: '/handouts/markdown-examples' }
         ]
       },
       {
@@ -43,6 +45,7 @@ export default defineConfig({
         text: '教程',
         items: [
           { text: 'DevC++使用教程', link: '/guides/devcpp-guide' },
+          { text: 'Virtual Judge 使用指南', link: '/resource/virtual-judge-guide'},
         ]
       },
       {
@@ -50,13 +53,13 @@ export default defineConfig({
         items: [
           { text: '2025年第0节课', link: '/resource/lesson0-2025'}, 
           { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025'},
-          { text: 'VJudge 使用指南', link: '/resource/virtual-judge-guide'},
         ]
       },
       {
         text: '竞赛',
         items: [
-          { text: '2025年教育部认可全国大学生学科竞赛榜单（按月份整理）', link: '/competition/competition-lists-2025' }
+          { text: '竞赛总览', link: '/competition' },
+          { text: '2025年教育部认可竞赛榜单', link: '/competition/competition-lists-2025' }
         ]
       }
     ],
