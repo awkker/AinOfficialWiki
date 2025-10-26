@@ -89,12 +89,15 @@ You can embed interactive presentations created with Slidev directly in VitePres
  <!-- scrolling="no"禁用 iframe 内部滚动，避免与页面滚动冲突 -->
  <!--  style增加轻微阴影和圆角，匹配 VitePress 轻量设计风格 -->
   <!-- title="Slidev Demo: Markdown Extensions in Action" 明确标题，提升无障碍性 -->
+  <!-- allow="fullscreen" 和 allowfullscreen 允许全屏显示 -->
 <iframe 
-  src="http://localhost:5173"    
+  src="http://localhost:3030"    
   width="100%" 
   height="720"    
   frameborder="0"  
   scrolling="yes" 
+  allow="fullscreen"
+  allowfullscreen
   style="border-radius: 6px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);"  
   title="Slidev Demo: Markdown Extensions in Action" 
 ></iframe>
