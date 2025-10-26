@@ -3,24 +3,20 @@
 name: Deploy VitePress site to Pages
 
 on:
-  # 在推送到 main 分支时运行
   push:
     branches:
       - main
 
-# GITHUB_TOKEN 的权限设置，以允许部署到 GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 只允许一个并发部署，防止旧的部署覆盖新的部署
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # 构建任务
   build:
     runs-on: ubuntu-latest
     steps:
@@ -33,14 +29,15 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      # 'npm ci' 现在会自动安装 playwright-chromium，因为我们已将其添加到 package.json
       - name: Install dependencies
         run: npm ci
 
       - name: Build Slidev presentations
         run: |
-          npx slidev build src-slides/2025-guide.md --out docs/public/slides/2025-guide
-          npx slidev build src-slides/cpp-basics.md --out docs/public/slides/cpp-basics
-          npx slidev build src-slides/demo.md --out docs/public/slides/demo
+          npx slidev build slides/2025-guide.md --out docs/public/slides/2025-guide
+          npx slidev build slides/cpp-basics.md --out docs/public/slides/cpp-basics
+          npx slidev build slides/demo.md --out docs/public/slides/demo
 
       - name: Build VitePress site
         run: npm run docs:build
@@ -50,7 +47,6 @@ jobs:
         with:
           path: docs/.vitepress/dist
 
-  # 部署任务
   deploy:
     needs: build
     runs-on: ubuntu-latest
