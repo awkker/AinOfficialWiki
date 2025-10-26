@@ -11,7 +11,7 @@ export default defineConfig({
     nav: [
       { text: '主页', link: '/' },
       { text: '讲义', link: '/handouts' },
-      { text: '幻灯片', link: '/slides' },
+      { text: '幻灯片', link: '/slides/2025-guide' },
       { text: '教程', link: '/guides/devcpp-guide' },
       { text: '资源', link: 'resource/lesson0-2025'},
       { text: '竞赛', link: 'competition/competition-lists-2025' }
@@ -27,7 +27,9 @@ export default defineConfig({
       {
         text: '幻灯片',
         items: [
-      { text: 'slides', link: '/slides' }, //PPT罗列
+      { text: 'slides', link: '/slides/2025-guide' }, 
+         { text: 'slides', link: '/slides/cpp-basics' }, 
+       { text: 'slides', link: '/slides/demo' }, //PPT罗列
         ]
       },
       {
