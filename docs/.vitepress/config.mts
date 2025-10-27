@@ -24,45 +24,64 @@ export default defineConfig({
       { text: '竞赛', link: '/competition/' }
     ],
 
-    sidebar: [
-      {
-        text: '讲义',
-        items: [
-          { text: '讲义总览', link: '/handouts/' },
-          { text: 'C++ 输入输出与基础', link: '/handouts/lesson1-cpp-2025' },
-          { text: 'Markdown 示例', link: '/handouts/markdown-examples' }
-        ]
-      },
-      {
-        text: '幻灯片',
-        items: [
-          { text: '2025-指南', link: '/slides/' }, 
-          { text: 'C++ PPT', link: '/slides/' }, 
-          { text: '演示示例', link: '/slides/' },
-        ]
-      },
-      {
-        text: '教程',
-        items: [
-          { text: 'DevC++使用教程', link: '/guides/devcpp-guide' },
-          { text: 'Virtual Judge 使用指南', link: '/guides/virtual-judge-guide'},
-        ]
-      },
-      {
-        text: '资源',
-        items: [
-          { text: '2025年第0节课', link: '/resource/lesson0-2025'}, 
-          { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025'},
-        ]
-      },
-      {
-        text: '竞赛',
-        items: [
-          { text: '竞赛总览', link: '/competition/' },
-          { text: '2025年教育部认可竞赛榜单', link: '/competition/competition-lists-2025' }
-        ]
-      }
-    ],
+    sidebar: {
+      // 讲义侧边栏 - 只在访问 /handouts/ 路径时显示
+      '/handouts/': [
+        {
+          text: '讲义',
+          items: [
+            { text: '讲义总览', link: '/handouts/' },
+            { text: 'C++ 输入输出与基础', link: '/handouts/lesson1-cpp-2025' },
+            { text: 'Markdown 示例', link: '/handouts/markdown-examples' }
+          ]
+        }
+      ],
+      
+      // 幻灯片侧边栏 - 只在访问 /slides/ 路径时显示
+      '/slides/': [
+        {
+          text: '幻灯片',
+          items: [
+            { text: '2025-指南', link: '/slides/' }, 
+            { text: 'C++ PPT', link: '/slides/' }, 
+            { text: '演示示例', link: '/slides/' },
+          ]
+        }
+      ],
+      
+      // 教程侧边栏 - 只在访问 /guides/ 路径时显示
+      '/guides/': [
+        {
+          text: '教程',
+          items: [
+            { text: 'DevC++使用教程', link: '/guides/devcpp-guide' },
+            { text: 'Virtual Judge 使用指南', link: '/guides/virtual-judge-guide'},
+          ]
+        }
+      ],
+      
+      // 资源侧边栏 - 只在访问 /resource/ 路径时显示
+      '/resource/': [
+        {
+          text: '资源',
+          items: [
+            { text: '2025年第0节课', link: '/resource/lesson0-2025'}, 
+            { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025'},
+          ]
+        }
+      ],
+      
+      // 竞赛侧边栏 - 只在访问 /competition/ 路径时显示
+      '/competition/': [
+        {
+          text: '竞赛',
+          items: [
+            { text: '竞赛总览', link: '/competition/' },
+            { text: '2025年教育部认可竞赛榜单', link: '/competition/competition-lists-2025' }
+          ]
+        }
+      ]
+    },
 
     socialLinks: [
       { icon: 'qq', link: 'https://qm.qq.com/q/ZlktjRUdqg' }
