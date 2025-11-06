@@ -282,6 +282,7 @@ void merge_sort(int l, int r) {
 ## 4. 二分查找 (Binary Search)
 
 二分查找（或称折半查找）是一种在**有序数组**中查找某一特定元素的搜索算法。它的核心思想是不断地将搜索区间减半。
+![](https://gastigado.cnies.org/d/public/157380_f93a5c31dc-PIC2.png)
 
 下面有两个模板，它们分别用于解决两种最常见的二分问题：
 
