@@ -95,6 +95,18 @@ export default defineConfig({
   title: "3D环梦工坊编程竞赛组",
   description: '官方网站&知识库',
 
+  // 添加全局 head 标签用于分析追踪
+  head: [
+    [
+      'script',
+      {
+        defer: '',
+        src: 'https://analytics.hxcn.dev/script.js',
+        'data-website-id': '208c2af4-46ee-4e91-9e14-8f77440c378d'
+      }
+    ]
+  ],
+
   // ✨ 最终解决方案：确保这个配置存在且正确
   // 它告诉 VitePress 不要检查幻-灯片链接和任何 localhost 链接
   ignoreDeadLinks: [
