@@ -151,11 +151,11 @@ export default defineConfig({
             { text: 'C++ 输入输出与基础', link: '/handouts/lesson1-cpp-2025' },
             { text: 'C++ 函数和结构体', link: '/handouts/lesson2-cpp-2025-function' },
             { text: 'C++ STL库', link: '/handouts/lesson2-cpp-2025-STL' },
-            { text: 'git使用教程', link: '/handouts/lesson2-git-2025' },
+            { text: 'Git 使用教程', link: '/handouts/lesson2-git-2025' },
             { text: '算法入门：复杂度、排序与二分查找', link: '/handouts/lesson3-sort-2025' },
-            { text: 'python基础教学', link: '/handouts/lesson4-Python' },
-            { text: 'web预习', link: '/handouts/lesson4_weblearn' },
-            { text: 'html and css', link: '/handouts/lesson4-html_and_css' },
+            { text: 'Python 基础教学', link: '/handouts/lesson4-Python' },
+            { text: 'Web 预习', link: '/handouts/lesson4_weblearn' },
+            { text: 'HTML/CSS/JavaScript入门', link: '/handouts/lesson4-html_and_css' },
           ]
         }
       ],
@@ -186,8 +186,12 @@ export default defineConfig({
         {
           text: '资源',
           items: [
+            { text: '资源总览', link: '/resource/' },
             { text: '2025年第0节课', link: '/resource/lesson0-2025'}, 
             { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025'},
+            { text: '2024 第一次虚拟机安装', link: '/resource/first-vm-2024' },
+            { text: 'Git使用基础和工作流', link: '/resource/git-basics' },
+            { text: '线性代数的艺术（中文）', link: '/resource/the-art-of-linear-algebra-zh-cn' },
           ]
         }
       ],
