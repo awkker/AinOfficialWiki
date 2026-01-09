@@ -28,6 +28,8 @@
     "slides:lesson3:export": "slidev export slides/lesson3-sort-2025.md"
   },
   "dependencies": {
+    "katex": "^0.16.21",
+    "markdown-it-footnote": "^4.0.0",
     "markdown-it-katex": "^2.0.3"
   }
 }

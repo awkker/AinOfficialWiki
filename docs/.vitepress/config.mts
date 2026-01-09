@@ -1,5 +1,98 @@
 import { defineConfig } from 'vitepress'
-import markdownItKatex from 'markdown-it-katex'
+import markdownItFootnote from 'markdown-it-footnote'
+import markdownItKatexModern from './markdown-it-katex-modern'
+
+function markdownItToc(md: any) {
+  const isTocMarker = (content: string) => {
+    const trimmed = content.trim()
+    return /^\[toc\]$/i.test(trimmed) || /^\[\[toc\]\]$/i.test(trimmed)
+  }
+
+  const slugifyFallback = (raw: string, used: Map<string, number>) => {
+    const base = raw
+      .trim()
+      .toLowerCase()
+      .replace(/[`~!@#$%^&*()+=\[\]{}\\|;:'",.<>/?]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+
+    const count = used.get(base) ?? 0
+    used.set(base, count + 1)
+    return count === 0 ? base : `${base}-${count}`
+  }
+
+  const renderTocHtml = (headings: Array<{ level: number; id: string; text: string }>) => {
+    if (headings.length === 0) {
+      return '<nav class="table-of-contents" aria-label="目录"></nav>\n'
+    }
+
+    let html = '<nav class="table-of-contents" aria-label="目录">\n'
+    html += '<div class="toc-title">目录</div>\n'
+    html += '<ul class="toc-list">\n'
+
+    for (const heading of headings) {
+      const safeText = md.utils.escapeHtml(heading.text)
+      const safeId = md.utils.escapeHtml(heading.id)
+      html += `<li class="toc-item toc-level-${heading.level}"><a href="#${safeId}">${safeText}</a></li>\n`
+    }
+
+    html += '</ul>\n'
+    html += '</nav>\n'
+    return html
+  }
+
+  md.core.ruler.push('inline-toc', (state: any) => {
+    const tokens = state.tokens as any[]
+
+    const markerParagraphStarts: number[] = []
+    for (let i = 0; i < tokens.length; i += 1) {
+      const token = tokens[i]
+      if (token?.type !== 'inline') continue
+      if (!isTocMarker(token.content)) continue
+
+      const prev = tokens[i - 1]
+      const next = tokens[i + 1]
+      if (prev?.type === 'paragraph_open' && next?.type === 'paragraph_close') {
+        markerParagraphStarts.push(i - 1)
+      }
+    }
+
+    if (markerParagraphStarts.length === 0) return
+
+    const usedSlugs = new Map<string, number>()
+    const headings: Array<{ level: number; id: string; text: string }> = []
+
+    for (let i = 0; i < tokens.length; i += 1) {
+      const token = tokens[i]
+      if (token?.type !== 'heading_open') continue
+
+      const level = Number(String(token.tag).slice(1))
+      if (!Number.isFinite(level) || level < 2 || level > 4) continue
+
+      const inline = tokens[i + 1]
+      const text = inline?.type === 'inline' ? String(inline.content ?? '').trim() : ''
+      if (!text) continue
+
+      let id = typeof token.attrGet === 'function' ? token.attrGet('id') : undefined
+      if (!id) {
+        id = slugifyFallback(text, usedSlugs)
+        if (typeof token.attrSet === 'function') token.attrSet('id', id)
+      }
+
+      headings.push({ level, id, text })
+    }
+
+    const html = renderTocHtml(headings)
+
+    for (let i = markerParagraphStarts.length - 1; i >= 0; i -= 1) {
+      const start = markerParagraphStarts[i]
+      const tocToken = new state.Token('html_block', '', 0)
+      tocToken.content = html
+      tokens.splice(start, 3, tocToken)
+    }
+  })
+}
 
 const customElements = [
   'math',
@@ -117,7 +210,11 @@ export default defineConfig({
   // 启用 KaTeX 数学公式支持
   markdown: {
     config: (md) => {
-      md.use(markdownItKatex)
+      // 支持 HTML 注释（<!-- -->）等内联 HTML 语法
+      md.set({ html: true })
+      md.use(markdownItKatexModern)
+      md.use(markdownItFootnote)
+      md.use(markdownItToc)
     }
   },
 
