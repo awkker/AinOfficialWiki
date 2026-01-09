@@ -185,8 +185,8 @@ const customElements = [
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/',
-  title: "3D环梦工坊编程竞赛组",
-  description: '官方网站&知识库',
+  title: "3D环梦工坊编程竞赛组 - 官方网站&知识库",
+  description: '3D环梦工坊编程竞赛组官方知识库，提供C++/Python编程入门教程、算法与数据结构讲义、竞赛指导、Git使用教程、Linux虚拟机安装指南等学习资源。包含NOI/NOIP/CSP等竞赛信息，助你从零基础成长为编程竞赛选手。',
 
   // 添加全局 head 标签用于分析追踪
   head: [
@@ -199,6 +199,13 @@ export default defineConfig({
       }
     ]
   ],
+
+  lastUpdated: true,
+
+  sitemap: {
+    hostname: 'https://ain.hmgf.hxcn.space',
+    lastmodDateOnly: false
+  },
 
   // ✨ 最终解决方案：确保这个配置存在且正确
   // 它告诉 VitePress 不要检查幻-灯片链接和任何 localhost 链接
