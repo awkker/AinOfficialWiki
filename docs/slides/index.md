@@ -29,7 +29,7 @@ description: 3D环梦工坊编程竞赛组课程幻灯片集合，包括C++基�
   scrolling="no" 
   allow="fullscreen"
   allowfullscreen
-  style="border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); margin: 20px 0;"  
+  class="slides-embed"  
   title="从蒟蒻到大佬的第一步 - 2025新生指南" 
 ></iframe>
 
@@ -55,7 +55,7 @@ description: 3D环梦工坊编程竞赛组课程幻灯片集合，包括C++基�
   scrolling="no" 
   allow="fullscreen"
   allowfullscreen
-  style="border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); margin: 20px 0;"  
+  class="slides-embed"  
   title="C++ 基础教程" 
 ></iframe>
 
@@ -81,7 +81,7 @@ description: 3D环梦工坊编程竞赛组课程幻灯片集合，包括C++基�
   scrolling="no" 
   allow="fullscreen"
   allowfullscreen
-  style="border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); margin: 20px 0;"  
+  class="slides-embed"  
   title="C++ 函数、结构体与 STL" 
 ></iframe>
 
@@ -107,7 +107,7 @@ description: 3D环梦工坊编程竞赛组课程幻灯片集合，包括C++基�
   scrolling="no" 
   allow="fullscreen"
   allowfullscreen
-  style="border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); margin: 20px 0;"  
+  class="slides-embed"  
   title="算法入门：复杂度、排序与二分查找" 
 ></iframe>
 
@@ -133,7 +133,7 @@ description: 3D环梦工坊编程竞赛组课程幻灯片集合，包括C++基�
   scrolling="no" 
   allow="fullscreen"
   allowfullscreen
-  style="border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); margin: 20px 0;"  
+  class="slides-embed"  
   title="编程入门 - Slidev 演示" 
 ></iframe>
 

@@ -59,7 +59,7 @@ const isHomePage = () => {
 }
 
 // 处理复制事件
-const handleCopy = (e: ClipboardEvent) => {
+const handleCopy = (_e: ClipboardEvent) => {
   // 如果在主页，不显示弹窗
   if (isHomePage()) {
     return
@@ -93,46 +93,45 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* 遮罩层 */
 .copyright-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(6, 20, 41, 0.56);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  padding: 16px;
+  padding: 20px;
 }
 
-/* 模态框主体 */
 .copyright-modal {
-  background-color: var(--vp-c-bg);
-  border-radius: 12px;
+  background: linear-gradient(145deg, var(--vp-c-bg) 0%, var(--vp-c-bg-soft) 100%);
+  border-radius: 16px;
   box-shadow: var(--vp-shadow-3);
-  max-width: 520px;
+  max-width: 560px;
   width: 100%;
   max-height: 90vh;
   overflow: auto;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--vp-c-divider-light);
+  transform-origin: center;
 }
 
-/* 头部 */
 .copyright-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--vp-c-divider);
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--vp-c-divider-light);
 }
 
 .copyright-modal-title {
   margin: 0;
+  font-family: var(--vp-font-family-base);
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: var(--vp-c-text-1);
 }
 
@@ -142,29 +141,29 @@ onBeforeUnmount(() => {
   justify-content: center;
   width: 32px;
   height: 32px;
-  border: none;
-  background: transparent;
-  border-radius: 6px;
+  border: 1px solid var(--vp-c-divider-light);
+  background: var(--vp-c-bg-mute);
+  border-radius: 10px;
   cursor: pointer;
   color: var(--vp-c-text-2);
-  transition: all 0.2s;
+  transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   padding: 0;
 }
 
 .copyright-modal-close:hover {
-  background-color: var(--vp-c-default-soft);
+  transform: translateY(-1px);
+  border-color: var(--vp-c-brand-1);
   color: var(--vp-c-text-1);
 }
 
-/* 主体内容 */
 .copyright-modal-body {
-  padding: 24px;
+  padding: 20px 24px;
   color: var(--vp-c-text-1);
-  line-height: 1.7;
+  line-height: 1.78;
 }
 
 .copyright-text {
-  margin: 0 0 16px 0;
+  margin: 0 0 14px 0;
   font-size: 15px;
   color: var(--vp-c-text-1);
 }
@@ -181,9 +180,9 @@ onBeforeUnmount(() => {
 .copyright-contact {
   margin-top: 20px;
   padding: 16px;
-  background-color: var(--vp-c-default-soft);
-  border-radius: 8px;
-  border-left: 3px solid var(--vp-c-brand-1);
+  background: linear-gradient(135deg, var(--vp-c-default-soft) 0%, var(--vp-c-brand-soft) 100%);
+  border-radius: 12px;
+  border: 1px solid var(--vp-c-divider-light);
 }
 
 .copyright-contact .copyright-text {
@@ -194,58 +193,59 @@ onBeforeUnmount(() => {
 .copyright-link {
   display: inline-flex;
   align-items: center;
-  padding: 8px 16px;
-  background-color: var(--vp-c-brand-1);
-  color: var(--vp-c-white);
+  padding: 8px 14px;
+  background: var(--vp-button-brand-bg);
+  color: var(--vp-button-brand-text);
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   font-size: 16px;
-  transition: all 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .copyright-link:hover {
-  background-color: var(--vp-c-brand-2);
   transform: translateY(-1px);
+  box-shadow: var(--vp-shadow-2);
 }
 
-/* 底部 */
 .copyright-modal-footer {
-  padding: 16px 24px;
-  border-top: 1px solid var(--vp-c-divider);
+  padding: 14px 24px 20px;
+  border-top: 1px solid var(--vp-c-divider-light);
   display: flex;
   justify-content: flex-end;
 }
 
 .copyright-btn {
-  padding: 8px 20px;
-  background-color: var(--vp-c-brand-1);
-  color: var(--vp-c-white);
-  border: none;
-  border-radius: 6px;
+  padding: 9px 20px;
+  background: var(--vp-button-brand-bg);
+  color: var(--vp-button-brand-text);
+  border: 1px solid transparent;
+  border-radius: 10px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .copyright-btn:hover {
-  background-color: var(--vp-c-brand-2);
+  transform: translateY(-1px);
+  box-shadow: var(--vp-shadow-2);
 }
 
 .copyright-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 
-/* 过渡动画 */
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.24s ease;
 }
 
 .modal-enter-active .copyright-modal,
 .modal-leave-active .copyright-modal {
-  transition: transform 0.3s ease;
+  transition: transform 0.24s ease, opacity 0.24s ease;
 }
 
 .modal-enter-from,
@@ -255,47 +255,44 @@ onBeforeUnmount(() => {
 
 .modal-enter-from .copyright-modal,
 .modal-leave-to .copyright-modal {
-  transform: scale(0.9);
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
 }
 
-/* 响应式设计 */
 @media (max-width: 640px) {
   .copyright-modal {
     max-width: 100%;
-    border-radius: 12px 12px 0 0;
-    max-height: 80vh;
+    border-radius: 16px;
+    max-height: 84vh;
   }
-  
+
   .copyright-modal-header {
     padding: 16px 20px;
   }
-  
+
   .copyright-modal-title {
     font-size: 18px;
   }
-  
+
   .copyright-modal-body {
     padding: 20px;
   }
-  
+
   .copyright-text {
     font-size: 14px;
   }
-  
+
   .copyright-link {
     font-size: 14px;
     padding: 6px 14px;
   }
 }
 
-/* 深色模式优化 */
 .dark .copyright-modal-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+  background: rgba(2, 8, 18, 0.7);
 }
 
-/* 确保在深色模式下的可读性 */
 .dark .copyright-modal {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 26px 62px rgba(3, 10, 24, 0.62);
 }
 </style>
-
