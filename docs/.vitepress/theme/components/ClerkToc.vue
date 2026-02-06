@@ -207,6 +207,27 @@ function syncActiveHeading() {
   const changed = next !== activeId.value
   activeId.value = next
   updateThumb()
+  if (changed) scrollToActiveItem()
+}
+
+function scrollToActiveItem() {
+  const scroll = scrollRef.value
+  const container = containerRef.value
+  if (!scroll || !container || !activeId.value) return
+
+  const link = container.querySelector<HTMLElement>(
+    `a[data-id='${cssEscape(activeId.value)}']`
+  )
+  if (!link) return
+
+  // Position active item at the 2nd-3rd row (~1.5 items from top)
+  const itemHeight = link.offsetHeight || 32
+  const scrollTarget = link.offsetTop - itemHeight * 1.5
+
+  scroll.scrollTo({
+    top: Math.max(0, scrollTarget),
+    behavior: 'smooth'
+  })
 }
 
 function collectHeadings() {
@@ -309,13 +330,13 @@ onBeforeUnmount(() => {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 8px 8px 10px 0;
+  padding: 8px 8px 10px 10px;
 }
 
 .clerk-toc-wire {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 10px;
   pointer-events: none;
   background: var(--vp-c-divider);
   mask-size: 100% 100%;

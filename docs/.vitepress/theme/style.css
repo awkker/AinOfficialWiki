@@ -160,12 +160,15 @@ h4,
   letter-spacing: 0.015em;
 }
 
-.VPContent,
 .VPNav,
-.VPSidebar,
-.VPDocAside {
+.VPSidebar {
   backdrop-filter: blur(14px) saturate(145%);
   -webkit-backdrop-filter: blur(14px) saturate(145%);
+}
+
+.VPDoc .aside .aside-container {
+  position: sticky;
+  top: calc(var(--vp-nav-height, 64px) + 24px);
 }
 
 .VPNav {
