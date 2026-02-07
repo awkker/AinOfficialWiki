@@ -14,7 +14,7 @@ description: 2025 新生指南幻灯片，涵盖学习路径、工具使用与�
 :::
 
 <iframe 
-  src="http://localhost:3031"
+  src="/decks/guide-2025/"
   width="100%"
   height="600"
   frameborder="0"

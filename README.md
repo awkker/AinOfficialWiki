@@ -1,128 +1,214 @@
 # 3D环梦工坊编程竞赛组
 
-官方网站和知识库
+官方网站与知识库（VitePress）+ 课程幻灯片（Slidev）一体化项目。
 
-## 🚀 快速开始
+## 项目说明
 
-### 安装依赖
+本项目同时维护两类内容：
+
+1. 文档站点：由 VitePress 构建，包含讲义、教程、资源、竞赛信息。
+2. 幻灯片：由 Slidev 构建为静态 SPA，通过 VitePress 页面内 `iframe` 嵌入展示。
+
+本地开发可并行启动多个 Slidev 服务；生产部署（Cloudflare Pages）采用单产物方案，将 VitePress 和全部 Slidev 构建结果合并到同一输出目录。
+
+## 目录结构
+
+```text
+vitepress/
+├── docs/                         # VitePress 文档源目录
+│   ├── .vitepress/               # VitePress 配置与主题
+│   ├── public/                   # 静态资源（含 Pages 重定向规则）
+│   ├── slides/                   # 幻灯片嵌入页（iframe 页面，不是 Slidev 源）
+│   ├── handouts/                 # 讲义
+│   ├── guides/                   # 教程
+│   ├── resource/                 # 资源
+│   └── competition/              # 竞赛相关
+├── slides/                       # Slidev 源文件（真实幻灯片源码）
+├── package.json                  # 脚本入口
+└── README.md
+```
+
+## 环境要求
+
+- Node.js `>= 20`
+- npm `>= 9`
+
+安装依赖：
+
 ```bash
 npm install
 ```
 
-### 启动开发服务器
+## 本地开发
 
-#### 🚀 一键启动（推荐）
+### 一键启动（推荐）
+
 ```bash
 npm run dev
 ```
-这个命令会**同时启动** VitePress 和 Slidev：
-- 文档网站：http://localhost:5173
-- 示例幻灯片：http://localhost:3030
-- 2025新生指南幻灯片：http://localhost:3031
 
-#### 分别启动（可选）
-如果你只需要启动其中一个：
+会同时启动：
+
+- VitePress：`http://localhost:5173`
+- Slidev demo：`http://localhost:3030`
+- Slidev 2025 指南：`http://localhost:3031`
+- Slidev C++ 基础：`http://localhost:3032`
+- Slidev C++ 函数/STL：`http://localhost:3033`
+- Slidev 算法入门：`http://localhost:3034`
+
+### 按需启动
 
 ```bash
-# 只启动文档网站
+# 文档
 npm run docs:dev
 
-# 只启动示例幻灯片
+# 幻灯片
 npm run slides:dev
-
-# 只启动2025新生指南幻灯片
 npm run slides:2025
+npm run slides:cpp
+npm run slides:lesson2
+npm run slides:lesson3
 ```
 
-### 构建生产版本
+## 脚本总览
+
+### 文档（VitePress）
 
 ```bash
-# 构建文档
+npm run docs:dev
 npm run docs:build
+npm run docs:preview
+```
 
-# 构建示例幻灯片
+### 幻灯片（Slidev）
+
+```bash
+# 本地预览
+npm run slides:dev
+npm run slides:2025
+npm run slides:cpp
+npm run slides:lesson2
+npm run slides:lesson3
+
+# 单份构建
 npm run slides:build
-
-# 构建2025新生指南幻灯片
 npm run slides:2025:build
+npm run slides:cpp:build
+npm run slides:lesson2:build
+npm run slides:lesson3:build
 
-# 导出幻灯片为 PDF
+# 导出（按需）
 npm run slides:export
 npm run slides:2025:export
+npm run slides:cpp:export
+npm run slides:lesson2:export
+npm run slides:lesson3:export
 ```
 
-## 📁 项目结构
+### Cloudflare 生产构建（单产物）
 
-```
-vitepress/
-├── docs/                    # VitePress 文档源文件
-│   ├── .vitepress/          # VitePress 配置
-│   ├── guides/              # 教程目录
-│   ├── Handouts/            # 讲义目录
-│   ├── resource/            # 资源目录
-│   ├── slides/              # Slidev 幻灯片
-│   │   ├── demo.md          # 示例幻灯片
-│   │   ├── 2025-guide.md    # 2025新生指南幻灯片
-│   │   └── cpp-basics.md    # C++基础教程幻灯片
-│   └── index.md             # 首页
-└── package.json             # 项目配置
+```bash
+npm run cf:build
 ```
 
-## 📝 如何创建内容
+该命令会执行：
 
-### 创建文档页面
+1. 清理产物目录：`.cloudflare-dist` 和 `slides/.cloudflare-dist`
+2. 构建 VitePress 到 `.cloudflare-dist`
+3. 构建 5 套 Slidev 到：
+   - `.cloudflare-dist/decks/demo/`
+   - `.cloudflare-dist/decks/guide-2025/`
+   - `.cloudflare-dist/decks/cpp-basics/`
+   - `.cloudflare-dist/decks/cpp-function-stl/`
+   - `.cloudflare-dist/decks/algorithm-intro/`
 
-在 `docs/` 目录下创建 `.md` 文件，使用 Markdown 语法编写内容。
+## Cloudflare Pages 部署
 
-### 创建幻灯片
+推荐使用单项目部署（当前仓库已适配）：
 
-1. 在 `docs/slides/` 目录下创建新的 `.md` 文件
-2. 使用 Slidev 语法编写幻灯片
-3. 在 `package.json` 中添加对应的启动脚本
+1. 导入本仓库到 Cloudflare Pages
+2. 设置构建命令：`npm run cf:build`
+3. 设置输出目录：`.cloudflare-dist`
+4. Node 版本设置为 `20+`
 
-### 在 VitePress 中嵌入 Slidev
+### 路由说明
 
-在文档中使用 iframe：
+- VitePress 页面路径：`/slides/*.html`
+- 嵌入 Slidev 路径：`/decks/*/`
+- SPA fallback 规则位于：`docs/public/_redirects`
+
+## 幻灯片嵌入规范
+
+文档页面（`docs/slides/*.md`）应使用线上路径，不要使用 `localhost`：
 
 ```html
-<iframe 
-  src="http://localhost:3030"    
-  width="100%" 
-  height="600"    
-  frameborder="0"  
+<iframe
+  src="/decks/demo/"
+  width="100%"
+  height="600"
+  frameborder="0"
   scrolling="no"
   allow="fullscreen"
   allowfullscreen
-  style="border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1);"  
-  title="幻灯片标题" 
+  title="编程入门演示"
 ></iframe>
 ```
 
-**重要：** 必须添加 `allow="fullscreen"` 和 `allowfullscreen` 属性，否则全屏按钮无法工作。
+必须保留：
 
-## ⚠️ 幻灯片访问说明
+- `allow="fullscreen"`
+- `allowfullscreen`
 
-由于幻灯片需要单独启动服务，在生产环境中无法直接通过iframe访问。我们提供了以下解决方案：
+## 新增一套幻灯片的标准流程
 
-### 本地开发环境
-- 运行 `npm run dev` 一键启动所有服务
-- 或者单独启动幻灯片服务：
-  - `npm run slides:dev` - 演示幻灯片 (端口3030)
-  - `npm run slides:2025` - 2025新生指南 (端口3031)  
-  - `npm run slides:cpp` - C++基础教程 (端口3032)
+以新增 `slides/new-topic.md` 为例：
 
-### 生产环境部署
-- 需要单独部署幻灯片服务
-- 或者直接访问幻灯片源文件：`docs/slides/` 目录下的 `.md` 文件
+1. 创建 Slidev 源文件：`slides/new-topic.md`
+2. 新增本地开发脚本（可选）：`slides:new-topic`
+3. 新增 Cloudflare 构建脚本：`cf:build:slide:new-topic`
+   - 约定路径：`--base /decks/new-topic/`
+   - 输出目录：`--out ../.cloudflare-dist/decks/new-topic`
+4. 在 `cf:build:slides` 中串联该脚本
+5. 新增/修改文档嵌入页 `docs/slides/*.md`，`iframe src` 指向 `/decks/new-topic/`
+6. 如需要，更新 `docs/public/_redirects` 添加：
+   - `/decks/new-topic/* /decks/new-topic/index.html 200`
 
-## 🔗 相关链接
+## 常见问题（Troubleshooting）
 
-- [VitePress 文档](https://vitepress.dev/)
-- [Slidev 文档](https://sli.dev/)
-- [Markdown 指南](https://www.markdownguide.org/)
+### 1) 页面能打开，但幻灯片是空白
 
-## 📮 联系我们
+通常是 `iframe src` 仍指向 `localhost:30xx`。  
+请改为线上静态路径：`/decks/<name>/`。
 
-- QQ群：[点击加入](https://qm.qq.com/q/ZlktjRUdqg)
-- GitHub：[ain.hmgf.hxcn.space](https://ain.hmgf.hxcn.space)
+### 2) Slidev 构建产物出现在错误目录
 
+Slidev 的 `--out` 是相对入口文件目录解析。  
+当前入口在 `slides/`，因此写到根目录应使用：
+
+```bash
+--out ../.cloudflare-dist/decks/<name>
+```
+
+### 3) 构建时报 Playwright 浏览器缺失
+
+若 deck frontmatter 开启了 `download: true`，构建时可能触发导出流程。  
+生产构建建议设为：
+
+```yaml
+download: false
+```
+
+### 4) deck 子路由刷新 404
+
+确认 `docs/public/_redirects` 中包含对应 `/decks/<name>/*` fallback 规则。
+
+## 相关链接
+
+- VitePress: <https://vitepress.dev/>
+- Slidev: <https://sli.dev/>
+- Cloudflare Pages: <https://developers.cloudflare.com/pages/>
+
+## 联系我们
+
+- QQ 群：<https://qm.qq.com/q/ZlktjRUdqg>
+- 站点：<https://ain.hmgf.hxcn.space>

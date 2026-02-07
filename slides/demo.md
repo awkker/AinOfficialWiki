@@ -4,7 +4,7 @@ theme: default
 # 幻灯片标题
 title: 3D环梦工坊 - 编程入门
 # 幻灯片下载
-download: true
+download: false
 # 显示行号
 lineNumbers: true
 # 语法高亮
@@ -139,4 +139,3 @@ class: text-center
     继续学习，一起进步！
   </span>
 </div>
-

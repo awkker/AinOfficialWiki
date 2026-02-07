@@ -12,7 +12,7 @@ drawings:
 transition: slide-left
 title: C++ 函数、结构体与 STL
 mdc: true
-download: true
+download: false
 ---
 
 # C++ 函数、结构体与 STL
@@ -1725,4 +1725,3 @@ layout: end
 # 谢谢观看
 
 继续学习，持续进步 💪
-

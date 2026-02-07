@@ -14,7 +14,7 @@ description: C++ 进阶课程幻灯片，包含函数、结构体、参数传递
 :::
 
 <iframe 
-  src="http://localhost:3033"
+  src="/decks/cpp-function-stl/"
   width="100%"
   height="600"
   frameborder="0"

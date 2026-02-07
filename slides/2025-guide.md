@@ -1,7 +1,7 @@
 ---
 theme: default
 title: 从蒟蒻到大佬的第一步
-download: true
+download: false
 lineNumbers: true
 highlighter: shiki
 drawings:

@@ -25,7 +25,16 @@
     "slides:lesson2:export": "slidev export slides/lesson2-function-stl.md",
     "slides:lesson3": "slidev slides/lesson3-sort-2025.md --port 3034",
     "slides:lesson3:build": "slidev build slides/lesson3-sort-2025.md",
-    "slides:lesson3:export": "slidev export slides/lesson3-sort-2025.md"
+    "slides:lesson3:export": "slidev export slides/lesson3-sort-2025.md",
+    "cf:build:clean": "rm -rf .cloudflare-dist slides/.cloudflare-dist",
+    "cf:build:docs": "npm run docs:build && mkdir -p .cloudflare-dist && cp -a docs/.vitepress/dist/. .cloudflare-dist/",
+    "cf:build:slide:demo": "slidev build slides/demo.md --base /decks/demo/ --out ../.cloudflare-dist/decks/demo --download false",
+    "cf:build:slide:guide-2025": "slidev build slides/2025-guide.md --base /decks/guide-2025/ --out ../.cloudflare-dist/decks/guide-2025 --download false",
+    "cf:build:slide:cpp-basics": "slidev build slides/cpp-basics.md --base /decks/cpp-basics/ --out ../.cloudflare-dist/decks/cpp-basics --download false",
+    "cf:build:slide:cpp-function-stl": "slidev build slides/lesson2-function-stl.md --base /decks/cpp-function-stl/ --out ../.cloudflare-dist/decks/cpp-function-stl --download false",
+    "cf:build:slide:algorithm-intro": "slidev build slides/lesson3-sort-2025.md --base /decks/algorithm-intro/ --out ../.cloudflare-dist/decks/algorithm-intro --download false",
+    "cf:build:slides": "npm run cf:build:slide:demo && npm run cf:build:slide:guide-2025 && npm run cf:build:slide:cpp-basics && npm run cf:build:slide:cpp-function-stl && npm run cf:build:slide:algorithm-intro",
+    "cf:build": "npm run cf:build:clean && npm run cf:build:docs && npm run cf:build:slides"
   },
   "dependencies": {
     "katex": "^0.16.21",

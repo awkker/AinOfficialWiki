@@ -14,7 +14,7 @@ description: C++ 基础教程幻灯片，包含输入输出、变量、数据类
 :::
 
 <iframe 
-  src="http://localhost:3032"
+  src="/decks/cpp-basics/"
   width="100%"
   height="600"
   frameborder="0"

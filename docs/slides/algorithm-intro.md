@@ -14,7 +14,7 @@ description: 算法入门幻灯片，覆盖时间复杂度、空间复杂度、�
 :::
 
 <iframe 
-  src="http://localhost:3034"
+  src="/decks/algorithm-intro/"
   width="100%"
   height="600"
   frameborder="0"

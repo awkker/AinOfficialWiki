@@ -12,7 +12,7 @@ drawings:
 transition: slide-left
 title: 算法入门：复杂度、排序与二分查找
 mdc: true
-download: true
+download: false
 ---
 
 # 算法入门
@@ -394,7 +394,7 @@ void bubble_sort_optimized(int a[], int n) {
 
 ### 初始数组
 
-```
+```txt
 [5, 3, 8, 4, 2]
 ```
 
@@ -1212,4 +1212,3 @@ layout: end
 # 谢谢观看
 
 继续学习，持续进步 💪
-

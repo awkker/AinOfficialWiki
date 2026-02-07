@@ -14,7 +14,7 @@ description: Slidev 演示页面，用于展示在 VitePress 中嵌入幻灯片�
 :::
 
 <iframe 
-  src="http://localhost:3030"
+  src="/decks/demo/"
   width="100%"
   height="600"
   frameborder="0"
