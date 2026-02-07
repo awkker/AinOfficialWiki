@@ -995,3 +995,31 @@ h4,
     scroll-behavior: auto !important;
   }
 }
+
+.doc-copyright {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--vp-c-divider);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--vp-c-text-2);
+}
+
+.VPDocFooter {
+  display: flex;
+  flex-direction: column;
+}
+
+.VPDocFooter > .edit-info {
+  order: 1;
+}
+
+.VPDocFooter > .doc-copyright {
+  order: 2;
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.VPDocFooter > .prev-next {
+  order: 3;
+}

@@ -237,6 +237,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     siteTitle: '3D环梦工坊编程竞赛组',
+    lastUpdatedText: '最后更新于',
 
     nav: [
       { text: '主页', link: '/' },
