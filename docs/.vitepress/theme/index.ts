@@ -6,9 +6,13 @@ import 'katex/dist/katex.min.css'
 import './style.css'
 import CopyrightModal from './components/CopyrightModal.vue'
 import ClerkToc from './components/ClerkToc.vue'
+import SlideEmbed from './components/SlideEmbed.vue'
 
 export default {
   extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('SlideEmbed', SlideEmbed)
+  },
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // 右侧 TOC 改为 Clerk 风格组件

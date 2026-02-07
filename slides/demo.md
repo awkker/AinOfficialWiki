@@ -9,8 +9,13 @@ download: false
 lineNumbers: true
 # 语法高亮
 highlighter: shiki
+fonts:
+  provider: none
+  sans: Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif
+  serif: Noto Serif SC, Source Han Serif SC, serif
+  mono: JetBrains Mono, Fira Code, SFMono-Regular, Menlo, Consolas, monospace
 # 图标
-favicon: https://slidev.dev/favicon.png
+favicon: /favicon.ico
 ---
 
 # 欢迎来到 3D环梦工坊

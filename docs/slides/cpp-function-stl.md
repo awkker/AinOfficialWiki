@@ -13,13 +13,4 @@ description: C++ 进阶课程幻灯片，包含函数、结构体、参数传递
 - 按 `D` 键切换暗色模式
 :::
 
-<iframe 
-  src="/decks/cpp-function-stl/"
-  width="100%"
-  height="600"
-  frameborder="0"
-  scrolling="no"
-  allow="fullscreen"
-  allowfullscreen
-  title="C++ 函数、结构体与 STL"
-></iframe>
+<SlideEmbed src="/decks/cpp-function-stl/" title="C++ 函数、结构体与 STL" :height="600" />

@@ -13,13 +13,4 @@ description: C++ 基础教程幻灯片，包含输入输出、变量、数据类
 - 按 `D` 键切换暗色模式
 :::
 
-<iframe 
-  src="/decks/cpp-basics/"
-  width="100%"
-  height="600"
-  frameborder="0"
-  scrolling="no"
-  allow="fullscreen"
-  allowfullscreen
-  title="C++ 基础教程"
-></iframe>
+<SlideEmbed src="/decks/cpp-basics/" title="C++ 基础教程" :height="600" />

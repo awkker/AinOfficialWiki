@@ -1,8 +1,12 @@
 ---
 theme: default
-background: https://source.unsplash.com/collection/94734566/1920x1080
 class: text-center
 highlighter: shiki
+fonts:
+  provider: none
+  sans: Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif
+  serif: Noto Serif SC, Source Han Serif SC, serif
+  mono: JetBrains Mono, Fira Code, SFMono-Regular, Menlo, Consolas, monospace
 lineNumbers: false
 info: |
   ## C++ 基础教程
@@ -11,6 +15,7 @@ drawings:
   persist: false
 transition: slide-left
 title: C++ 基础教程
+favicon: /favicon.ico
 mdc: true
 ---
 
@@ -1528,5 +1533,3 @@ layout: end
 # 谢谢观看
 
 继续学习，持续进步 💪
-
-

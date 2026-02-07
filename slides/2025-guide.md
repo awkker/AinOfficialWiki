@@ -4,9 +4,15 @@ title: 从蒟蒻到大佬的第一步
 download: false
 lineNumbers: true
 highlighter: shiki
+fonts:
+  provider: none
+  sans: Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif
+  serif: Noto Serif SC, Source Han Serif SC, serif
+  mono: JetBrains Mono, Fira Code, SFMono-Regular, Menlo, Consolas, monospace
 drawings:
   persist: false
 transition: slide-left
+favicon: /favicon.ico
 mdc: true
 ---
 

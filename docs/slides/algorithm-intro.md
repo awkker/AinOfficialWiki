@@ -13,13 +13,4 @@ description: 算法入门幻灯片，覆盖时间复杂度、空间复杂度、�
 - 按 `D` 键切换暗色模式
 :::
 
-<iframe 
-  src="/decks/algorithm-intro/"
-  width="100%"
-  height="600"
-  frameborder="0"
-  scrolling="no"
-  allow="fullscreen"
-  allowfullscreen
-  title="算法入门：复杂度、排序与二分查找"
-></iframe>
+<SlideEmbed src="/decks/algorithm-intro/" title="算法入门：复杂度、排序与二分查找" :height="600" />

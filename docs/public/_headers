@@ -1,0 +1,8 @@
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/decks/*/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/decks/*
+  Cache-Control: public, max-age=600

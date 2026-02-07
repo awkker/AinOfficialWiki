@@ -1,8 +1,12 @@
 ---
 theme: default
-background: https://source.unsplash.com/collection/94734566/1920x1080
 class: text-center
 highlighter: shiki
+fonts:
+  provider: none
+  sans: Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif
+  serif: Noto Serif SC, Source Han Serif SC, serif
+  mono: JetBrains Mono, Fira Code, SFMono-Regular, Menlo, Consolas, monospace
 lineNumbers: true
 info: |
   ## 算法入门：复杂度、排序与二分查找
@@ -11,6 +15,7 @@ drawings:
   persist: false
 transition: slide-left
 title: 算法入门：复杂度、排序与二分查找
+favicon: /favicon.ico
 mdc: true
 download: false
 ---

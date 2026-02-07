@@ -13,13 +13,4 @@ description: 2025 新生指南幻灯片，涵盖学习路径、工具使用与�
 - 按 `D` 键切换暗色模式
 :::
 
-<iframe 
-  src="/decks/guide-2025/"
-  width="100%"
-  height="600"
-  frameborder="0"
-  scrolling="no"
-  allow="fullscreen"
-  allowfullscreen
-  title="从蒟蒻到大佬的第一步 - 2025新生指南"
-></iframe>
+<SlideEmbed src="/decks/guide-2025/" title="从蒟蒻到大佬的第一步 - 2025新生指南" :height="600" />

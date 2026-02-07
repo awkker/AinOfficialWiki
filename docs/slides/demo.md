@@ -13,13 +13,4 @@ description: Slidev 演示页面，用于展示在 VitePress 中嵌入幻灯片�
 - 按 `D` 键切换暗色模式
 :::
 
-<iframe 
-  src="/decks/demo/"
-  width="100%"
-  height="600"
-  frameborder="0"
-  scrolling="no"
-  allow="fullscreen"
-  allowfullscreen
-  title="编程入门演示"
-></iframe>
+<SlideEmbed src="/decks/demo/" title="编程入门演示" :height="600" />

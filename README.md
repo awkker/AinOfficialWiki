@@ -139,24 +139,29 @@ npm run cf:build
 
 ## 幻灯片嵌入规范
 
-文档页面（`docs/slides/*.md`）应使用线上路径，不要使用 `localhost`：
+文档页面（`docs/slides/*.md`）统一使用主题组件 `SlideEmbed`，不要直接写原始 `iframe`：
 
-```html
-<iframe
-  src="/decks/demo/"
-  width="100%"
-  height="600"
-  frameborder="0"
-  scrolling="no"
-  allow="fullscreen"
-  allowfullscreen
-  title="编程入门演示"
-></iframe>
+```md
+<SlideEmbed src="/decks/demo/" title="编程入门演示" :height="600" />
 ```
 
-必须保留：
+组件位置：
+
+- `docs/.vitepress/theme/components/SlideEmbed.vue`
+
+组件能力：
+
+- `iframe loading="lazy"`（延迟加载）
+- 仅使用 `allow="fullscreen"`（不再使用 `allowfullscreen`）
+- 加载态 Skeleton
+- 超时提示（默认 12s）+ 手动重试 + 新窗口打开
+
+如果必须手写 `iframe`（不推荐），请仅保留：
 
 - `allow="fullscreen"`
+
+不要再添加：
+
 - `allowfullscreen`
 
 ## 新增一套幻灯片的标准流程
@@ -172,6 +177,41 @@ npm run cf:build
 5. 新增/修改文档嵌入页 `docs/slides/*.md`，`iframe src` 指向 `/decks/new-topic/`
 6. 如需要，更新 `docs/public/_redirects` 添加：
    - `/decks/new-topic/* /decks/new-topic/index.html 200`
+
+## Cloudflare 性能优化（已落地）
+
+当前项目已对“文档站 + 多套 Slidev”场景做了以下优化：
+
+1. 移除 Google Fonts 在线依赖
+   - 所有 deck frontmatter 设置 `fonts.provider: none`
+   - 使用系统字体栈，避免 `fonts.googleapis.com` 弱网超时
+2. 幻灯片页采用 Skeleton 过渡
+   - `SlideEmbed` 组件提供加载态、超时态、重试入口
+3. 避免 Slidev 默认外链 favicon
+   - 所有 deck frontmatter 设置 `favicon: /favicon.ico`
+4. 增加静态资源缓存头
+   - 配置文件：`docs/public/_headers`
+   - `/assets/*`、`/decks/*/assets/*` 使用长缓存
+5. 统一线上路径
+   - 嵌入地址全部使用 `/decks/<name>/`，不依赖本地端口
+
+## 部署后自检（建议）
+
+每次部署后建议至少检查一次：
+
+```bash
+# 构建
+npm run cf:build
+
+# 检查 deck index 是否仍有第三方外链（应尽量为空）
+rg -n "https?://" .cloudflare-dist/decks/*/index.html -S
+
+# 检查是否仍有 Google Fonts
+rg -n "fonts.googleapis.com|css2\\?family" .cloudflare-dist -S
+
+# 检查是否仍出现 allowfullscreen 属性
+rg -n "allowfullscreen=" .cloudflare-dist -S
+```
 
 ## 常见问题（Troubleshooting）
 
@@ -201,6 +241,22 @@ download: false
 ### 4) deck 子路由刷新 404
 
 确认 `docs/public/_redirects` 中包含对应 `/decks/<name>/*` fallback 规则。
+
+### 5) 控制台警告：`Allow attribute will take precedence over 'allowfullscreen'`
+
+这是 `iframe` 同时设置 `allow="fullscreen"` 和 `allowfullscreen` 导致的浏览器提示。  
+当前项目已改为只保留 `allow="fullscreen"`。如果线上仍出现，多半是 Cloudflare 旧缓存未刷新。
+
+### 6) 控制台报错：`fonts.googleapis.com ... net::ERR_TIMED_OUT`
+
+这是外部字体资源请求超时。  
+当前项目已关闭 Slidev 的在线字体下载（`fonts.provider: none`），并改用本地/系统字体栈。  
+若仍出现，优先检查是否命中了旧构建缓存。
+
+### 7) 控制台报错：`.../cdn-cgi/rum` 请求失败
+
+通常与 Cloudflare Browser Insights / RUM 上报链路相关，不会影响核心页面功能。  
+若不需要该能力，可在 Cloudflare 面板关闭对应观测功能。
 
 ## 相关链接
 
