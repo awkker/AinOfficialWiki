@@ -1,6 +1,6 @@
 ---
-title: 编程入门演示
-description: Slidev 演示页面，用于展示在 VitePress 中嵌入幻灯片的效果。
+title: 编程入门演示幻灯片：VitePress 嵌入与交互示例
+description: Slidev 演示页面，用于展示在 VitePress 文档中嵌入幻灯片的展示方式与交互体验，可用于验证页面加载、切换操作和课堂演示效果。
 ---
 
 # 编程入门演示

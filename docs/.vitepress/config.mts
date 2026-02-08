@@ -2,6 +2,33 @@ import { defineConfig } from 'vitepress'
 import markdownItFootnote from 'markdown-it-footnote'
 import markdownItKatexModern from './markdown-it-katex-modern'
 
+const SITE_URL = 'https://ain.hmgf.hxcn.space'
+const SOCIAL_IMAGE_URL = new URL('/favicon.ico', SITE_URL).toString()
+
+function toCanonicalPath(relativePath: string): string {
+  const normalized = relativePath.replace(/\\/g, '/')
+
+  if (normalized === 'index.md') return '/'
+  if (normalized.endsWith('/index.md')) {
+    return `/${normalized.slice(0, -'index.md'.length)}`
+  }
+
+  return `/${normalized.replace(/\.md$/, '')}.html`
+}
+
+function isSlidesUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url, SITE_URL)
+    return parsed.pathname === '/slides/' || parsed.pathname.startsWith('/slides/')
+  } catch {
+    return false
+  }
+}
+
+function toOgLocale(lang: string): string {
+  return lang.replace('-', '_')
+}
+
 function markdownItToc(md: any) {
   const isTocMarker = (content: string) => {
     const trimmed = content.trim()
@@ -185,7 +212,8 @@ const customElements = [
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/',
-  title: "3D环梦工坊编程竞赛组 - 官方网站&知识库",
+  lang: 'zh-CN',
+  title: "3D环梦工坊编程竞赛组 - C++/Python算法课程讲义与竞赛训练知识库官网",
   description: '3D环梦工坊编程竞赛组官方知识库，提供C++/Python编程入门教程、算法与数据结构讲义、竞赛指导、Git使用教程、Linux虚拟机安装指南等学习资源。包含NOI/NOIP/CSP等竞赛信息，助你从零基础成长为编程竞赛选手。',
 
   // 添加全局 head 标签用于分析追踪
@@ -203,8 +231,67 @@ export default defineConfig({
   lastUpdated: true,
 
   sitemap: {
-    hostname: 'https://ain.hmgf.hxcn.space',
-    lastmodDateOnly: false
+    hostname: SITE_URL,
+    lastmodDateOnly: false,
+    transformItems: (items) => {
+      return items.filter((item) => !isSlidesUrl(item.url))
+    }
+  },
+
+  transformHead: ({ pageData, head, title, description, siteData }) => {
+    const tags: Array<[string, Record<string, string>]> = []
+    const pageTitle = title || pageData.title || siteData.title
+    const pageDescription = description || pageData.description || siteData.description
+    const pageLang = siteData.lang || 'zh-CN'
+    const robots = pageData.isNotFound ? 'noindex, nofollow' : 'index, follow'
+
+    if (!pageData.isNotFound && pageData.relativePath) {
+      const hasCanonical = head.some(
+        ([tag, attrs]) => tag === 'link' && attrs?.rel === 'canonical'
+      )
+      if (!hasCanonical) {
+        const canonicalHref = new URL(toCanonicalPath(pageData.relativePath), SITE_URL).toString()
+        tags.push(['link', { rel: 'canonical', href: canonicalHref }])
+      }
+    }
+
+    const canonical =
+      tags.find(([tag, attrs]) => tag === 'link' && attrs.rel === 'canonical')?.[1].href ??
+      (head.find(([tag, attrs]) => tag === 'link' && attrs?.rel === 'canonical')?.[1]?.href || SITE_URL)
+
+    tags.push(['meta', { name: 'robots', content: robots }])
+
+    tags.push(['meta', { property: 'og:type', content: 'website' }])
+    tags.push(['meta', { property: 'og:url', content: canonical }])
+    tags.push(['meta', { property: 'og:title', content: pageTitle }])
+    tags.push(['meta', { property: 'og:description', content: pageDescription }])
+    tags.push(['meta', { property: 'og:image', content: SOCIAL_IMAGE_URL }])
+    tags.push(['meta', { property: 'og:site_name', content: siteData.title }])
+    tags.push(['meta', { property: 'og:locale', content: toOgLocale(pageLang) }])
+
+    tags.push(['meta', { property: 'twitter:card', content: 'summary_large_image' }])
+    tags.push(['meta', { property: 'twitter:url', content: canonical }])
+    tags.push(['meta', { property: 'twitter:title', content: pageTitle }])
+    tags.push(['meta', { property: 'twitter:description', content: pageDescription }])
+    tags.push(['meta', { property: 'twitter:image', content: SOCIAL_IMAGE_URL }])
+
+    tags.push(['meta', { itemprop: 'name', content: pageTitle }])
+    tags.push(['meta', { itemprop: 'description', content: pageDescription }])
+    tags.push(['meta', { itemprop: 'image', content: SOCIAL_IMAGE_URL }])
+
+    tags.push(['meta', { name: 'qq:title', content: pageTitle }])
+    tags.push(['meta', { name: 'qq:description', content: pageDescription }])
+    tags.push(['meta', { name: 'qq:image', content: SOCIAL_IMAGE_URL }])
+
+    tags.push(['meta', { property: 'weibo:title', content: pageTitle }])
+    tags.push(['meta', { property: 'weibo:description', content: pageDescription }])
+    tags.push(['meta', { property: 'weibo:image', content: SOCIAL_IMAGE_URL }])
+
+    tags.push(['meta', { property: 'bdapp:title', content: pageTitle }])
+    tags.push(['meta', { property: 'bdapp:description', content: pageDescription }])
+    tags.push(['meta', { property: 'bdapp:image', content: SOCIAL_IMAGE_URL }])
+
+    return tags
   },
 
   // ✨ 最终解决方案：确保这个配置存在且正确

@@ -1,6 +1,6 @@
 ---
-title: 竞赛
-description: 编程竞赛常见赛项、准备方向与学习资源总览。
+title: 编程竞赛指南：NOI/NOIP/CSP 赛项介绍与备赛路线
+description: 本页系统介绍 NOI、NOIP、CSP-J/S 等常见编程竞赛体系，以及洛谷、Codeforces、AtCoder、LeetCode 等平台的使用方向，并给出从语法基础到算法进阶的备赛路径建议。
 ---
 
 # 竞赛
