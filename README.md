@@ -133,10 +133,10 @@ npm run cf:build
 
 ### 路由说明
 
-- VitePress 页面路径：`/slides/*`（clean URLs）
+- VitePress 页面路径：使用 `.html` 直出（示例：`/slides/guide-2025.html`）
 - 嵌入 Slidev 路径：`/decks/*/`
 - 路由重写规则位于：`docs/public/_redirects`
-- `_redirects` 仅用于 deck 的 SPA fallback，不要为 VitePress 文档页添加“无后缀 -> .html”重写
+- `_redirects` 仅用于 deck 的 SPA fallback，VitePress 文档页走静态 `.html` 文件
 - 不要添加全局规则 `/* /index.html 200`，否则会误伤 `assets` / `sitemap.xml` 等静态资源
 
 ## Vercel 部署
@@ -150,9 +150,9 @@ npm run cf:build
 
 ### 路由说明
 
-- `vercel.json` 已启用 `cleanUrls: true`（与当前 VitePress `cleanUrls` 一致）
-- deck 的 SPA fallback 通过 `rewrites` 定向到 `/decks/<name>/index`
-- 不要添加全局规则 `/(.*) -> /index`，否则会破坏 VitePress 多页面路由
+- `vercel.json` 不启用 `cleanUrls`，保持 `.html` 链接可直接访问
+- deck 的 SPA fallback 通过 `rewrites` 定向到 `/decks/<name>/index.html`
+- 不要添加全局规则 `/(.*) -> /index.html`，否则会破坏 VitePress 多页面路由
 
 ## EdgeOne Pages 部署
 
@@ -278,7 +278,7 @@ download: false
 确认 `docs/public/_redirects` 中包含：
 
 - deck 的 `/decks/<name>/* -> /decks/<name>/index.html 200`
-- 不要给 VitePress 文档页配置“无后缀 URL -> `.html`”重写，否则在 Cloudflare Pages 上可能触发 `308` 自跳循环
+- 文档页请直接使用 `.html` 路径（例如 `/guides/git-basics.html`），不要加全局 SPA 回退
 
 ### 5) 控制台警告：`Allow attribute will take precedence over 'allowfullscreen'`
 
