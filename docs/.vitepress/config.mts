@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import markdownItFootnote from 'markdown-it-footnote'
 import markdownItKatexModern from './markdown-it-katex-modern'
+import { normalizeLanguageId, resolveLanguageLabel, resolveLanguageShortLabel } from './shared/language-labels'
 
 const SITE_URL = 'https://ain.hmgf.hxcn.space'
 const SOCIAL_IMAGE_URL = new URL('/favicon.ico', SITE_URL).toString()
@@ -139,6 +140,37 @@ function markdownItToc(md: any) {
       tokens.splice(start, 3, tocToken)
     }
   })
+}
+
+function escapeHtmlAttribute(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+}
+
+function enhanceFenceLanguageLabel(md: any) {
+  const originalFenceRenderer = md.renderer.rules.fence
+  if (typeof originalFenceRenderer !== 'function') return
+
+  md.renderer.rules.fence = (tokens: any[], idx: number, options: any, env: any, self: any) => {
+    const html = originalFenceRenderer(tokens, idx, options, env, self)
+    const token = tokens[idx]
+    const info = String(token?.info ?? '').trim()
+    const rawInfo = info.match(/^([^\s{]+)/)?.[1] ?? ''
+    const normalizedLanguage = normalizeLanguageId(rawInfo || 'text')
+    const fullLabel = resolveLanguageLabel(normalizedLanguage)
+    const shortLabel = resolveLanguageShortLabel(normalizedLanguage)
+    const safeFullLabel = md.utils.escapeHtml(fullLabel)
+    const safeFullData = escapeHtmlAttribute(fullLabel)
+    const safeShortData = escapeHtmlAttribute(shortLabel)
+
+    return html.replace(
+      /<span class="lang">.*?<\/span>/,
+      `<span class="lang" data-lang-full="${safeFullData}" data-lang-short="${safeShortData}">${safeFullLabel}</span>`
+    )
+  }
 }
 
 const customElements = [
@@ -337,6 +369,7 @@ export default defineConfig({
       md.use(markdownItKatexModern)
       md.use(markdownItFootnote)
       md.use(markdownItToc)
+      enhanceFenceLanguageLabel(md)
     }
   },
 
@@ -513,6 +546,30 @@ export default defineConfig({
           items: [
             { text: '2025年第0节课', link: '/resource/lesson0-2025.html' },
             { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025.html' }
+          ]
+        },
+        {
+          text: '贡献项目',
+          items: [
+            {
+              text: '项目组件',
+              items: [
+                { text: '总览', link: '/resource/project-components.html' },
+                { text: 'Accordion', link: '/resource/project-components/accordion.html' },
+                { text: 'Asides', link: '/resource/project-components/asides.html' },
+                { text: 'Badges', link: '/resource/project-components/badges.html' },
+                { text: 'Checkbox', link: '/resource/project-components/checkbox.html' },
+                { text: 'Checkbox Group', link: '/resource/project-components/checkbox-group.html' },
+                { text: 'Code', link: '/resource/project-components/code.html' },
+                { text: 'File Tree', link: '/resource/project-components/file-tree.html' },
+                { text: 'Link Buttons', link: '/resource/project-components/link-buttons.html' },
+                { text: 'Link Cards', link: '/resource/project-components/link-cards.html' },
+                { text: 'Steps', link: '/resource/project-components/steps.html' },
+                { text: 'Table', link: '/resource/project-components/table.html' },
+                { text: 'Tabs', link: '/resource/project-components/tabs.html' },
+                { text: 'Toast', link: '/resource/project-components/toast.html' }
+              ]
+            }
           ]
         }
       ],
