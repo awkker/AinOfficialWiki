@@ -25,9 +25,103 @@ function normalizeRowLength(rows: string[][]): string[][] {
   })
 }
 
-function isBlankCell(cell: HTMLTableCellElement | undefined): boolean {
-  if (!cell) return false
-  return normalizeCellContent(cell.textContent ?? '') === ''
+const SPAN_MARKER_PATTERN = /\[\[\s*(colspan|rowspan)\s*[:=]\s*(\d+)\s*\]\]/gi
+const MAX_SPAN_SIZE = 128
+
+type MergeDirective = {
+  hasDirective: boolean
+  text: string
+  colspan: number
+  rowspan: number
+}
+
+type CellPlacement = {
+  rowIndex: number
+  columnStart: number
+  colSpan: number
+  cell: HTMLTableCellElement
+}
+
+function normalizeSpanValue(raw: string): number {
+  const value = Number(raw)
+  if (!Number.isFinite(value)) return 1
+  const integer = Math.floor(value)
+  if (integer < 2) return 1
+  return Math.min(integer, MAX_SPAN_SIZE)
+}
+
+function parseMergeDirective(raw: string): MergeDirective {
+  let colspan = 1
+  let rowspan = 1
+  let hasDirective = false
+
+  const stripped = raw.replace(
+    SPAN_MARKER_PATTERN,
+    (_full: string, type: string, size: string) => {
+      hasDirective = true
+      const value = normalizeSpanValue(size)
+      if (type.toLowerCase() === 'colspan') {
+        colspan = Math.max(colspan, value)
+      } else {
+        rowspan = Math.max(rowspan, value)
+      }
+      return ' '
+    }
+  )
+
+  return {
+    hasDirective,
+    text: hasDirective ? normalizeCellContent(stripped) : raw,
+    colspan,
+    rowspan
+  }
+}
+
+function buildCellLayout(rows: HTMLTableRowElement[]): {
+  placements: CellPlacement[]
+  matrix: Array<Array<HTMLTableCellElement | undefined>>
+} {
+  const placements: CellPlacement[] = []
+  const matrix: Array<Array<HTMLTableCellElement | undefined>> = rows.map(() => [])
+  const occupiedRowsByColumn: number[] = []
+
+  for (let rowIndex = 0; rowIndex < rows.length; rowIndex += 1) {
+    for (let column = 0; column < occupiedRowsByColumn.length; column += 1) {
+      occupiedRowsByColumn[column] = Math.max(0, (occupiedRowsByColumn[column] ?? 0) - 1)
+    }
+
+    const row = rows[rowIndex]
+    const cells = Array.from(row.cells)
+    let columnCursor = 0
+
+    for (const cell of cells) {
+      while ((occupiedRowsByColumn[columnCursor] ?? 0) > 0) {
+        columnCursor += 1
+      }
+
+      const colSpan = Math.max(1, cell.colSpan || 1)
+      const rowSpan = Math.max(1, cell.rowSpan || 1)
+
+      placements.push({
+        rowIndex,
+        columnStart: columnCursor,
+        colSpan,
+        cell
+      })
+
+      for (let offset = 0; offset < colSpan; offset += 1) {
+        const column = columnCursor + offset
+        matrix[rowIndex]![column] = cell
+        if (rowSpan > 1) {
+          occupiedRowsByColumn[column] = Math.max(occupiedRowsByColumn[column] ?? 0, rowSpan - 1)
+        }
+      }
+
+      columnCursor += colSpan
+    }
+  }
+
+  return { placements, matrix }
 }
 
 function mergeCellsInRow(row: HTMLTableRowElement, startIndex: number, span: number): void {
@@ -54,89 +148,67 @@ function mergeCellsInRow(row: HTMLTableRowElement, startIndex: number, span: num
   anchor.colSpan = Math.max(anchor.colSpan, targetSpan)
 }
 
-function applyMarkerMergeRules(table: HTMLTableElement): void {
+function applyExplicitMergeRules(table: HTMLTableElement): void {
   const rows = Array.from(table.tBodies).flatMap((body) => Array.from(body.rows))
   if (rows.length === 0) return
 
-  const firstDataRow = rows[0]
-  const firstMarkerCell = firstDataRow.cells[0]
-  if (firstMarkerCell) {
-    const markerText = normalizeCellContent(firstMarkerCell.textContent ?? '')
-    const match = markerText.match(/^:(\d+)$/)
-    if (match) {
-      const span = Number(match[1])
-      firstMarkerCell.remove()
-      mergeCellsInRow(firstDataRow, 0, span)
-    }
-  }
+  const directives = new WeakMap<HTMLTableCellElement, MergeDirective>()
 
   for (const row of rows) {
-    const markerCell = row.cells[0]
-    if (!markerCell) continue
+    const cells = Array.from(row.cells)
 
-    const markerText = normalizeCellContent(markerCell.textContent ?? '')
-    const match = markerText.match(/^=(\d+)$/)
-    if (!match) continue
+    for (let index = cells.length - 1; index >= 0; index -= 1) {
+      const cell = cells[index]
+      const directive = parseMergeDirective(cell.textContent ?? '')
+      directives.set(cell, directive)
+      if (directive.hasDirective) {
+        cell.textContent = directive.text
+      }
 
-    const span = Number(match[1])
-    markerCell.remove()
-    mergeCellsInRow(row, 0, span)
+      if (directive.colspan > 1) {
+        mergeCellsInRow(row, index, directive.colspan)
+      }
+    }
   }
-}
 
-function applyAutoHorizontalMergeRules(table: HTMLTableElement): void {
-  const rows = Array.from(table.tBodies).flatMap((body) => Array.from(body.rows))
+  const { placements, matrix } = buildCellLayout(rows)
 
-  for (const row of rows) {
-    if (row.cells.length < 3) continue
+  for (const placement of placements) {
+    const { rowIndex, columnStart, colSpan, cell } = placement
+    if (!cell.isConnected) continue
 
-    const firstCell = row.cells[0]
-    if (!firstCell) continue
-    if (isBlankCell(firstCell)) continue
-    if (!isBlankCell(row.cells[1]) || !isBlankCell(row.cells[2])) continue
+    const directive = directives.get(cell)
+    const requestedSpan = directive?.rowspan ?? 1
+    if (requestedSpan <= 1) continue
 
-    let span = 1
-    for (let column = 1; column < row.cells.length; column += 1) {
-      if (!isBlankCell(row.cells[column])) break
-      span += 1
+    const targetSpan = Math.min(requestedSpan, rows.length - rowIndex)
+    if (targetSpan <= 1) continue
+
+    const cellsToRemove = new Set<HTMLTableCellElement>()
+
+    for (let rowOffset = 1; rowOffset < targetSpan; rowOffset += 1) {
+      const row = matrix[rowIndex + rowOffset]
+      if (!row) break
+
+      for (let column = columnStart; column < columnStart + colSpan; column += 1) {
+        const candidate = row[column]
+        if (!candidate || candidate === cell) continue
+        cellsToRemove.add(candidate)
+      }
     }
 
-    mergeCellsInRow(row, 0, span)
-  }
-}
-
-function applyAutoVerticalMergeRules(table: HTMLTableElement): void {
-  const rows = Array.from(table.tBodies).flatMap((body) => Array.from(body.rows))
-  if (rows.length < 3) return
-
-  const firstRowCellCount = rows[0]?.cells.length ?? 0
-
-  for (let column = firstRowCellCount - 1; column >= 0; column -= 1) {
-    const anchor = rows[0]?.cells[column]
-    if (!anchor || isBlankCell(anchor)) continue
-    if (!isBlankCell(rows[1]?.cells[column]) || !isBlankCell(rows[2]?.cells[column])) continue
-
-    let span = 1
-    for (let rowIndex = 1; rowIndex < rows.length; rowIndex += 1) {
-      const cell = rows[rowIndex]?.cells[column]
-      if (!isBlankCell(cell)) break
-      span += 1
+    for (const candidate of cellsToRemove) {
+      candidate.remove()
     }
 
-    anchor.rowSpan = Math.max(anchor.rowSpan, span)
-
-    for (let rowIndex = 1; rowIndex < span; rowIndex += 1) {
-      rows[rowIndex]?.cells[column]?.remove()
-    }
+    cell.rowSpan = Math.max(cell.rowSpan, targetSpan)
   }
 }
 
 function applyMergeRules(table: HTMLTableElement): void {
   if (table.dataset.vpProTableMerged === 'true') return
 
-  applyMarkerMergeRules(table)
-  applyAutoHorizontalMergeRules(table)
-  applyAutoVerticalMergeRules(table)
+  applyExplicitMergeRules(table)
   table.dataset.vpProTableMerged = 'true'
 }
 

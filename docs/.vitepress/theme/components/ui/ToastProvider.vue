@@ -106,6 +106,17 @@ function setToastPaused(id: number, paused: boolean): void {
   toast.lastTick = now
 }
 
+function handleToastFocusOut(event: FocusEvent, id: number): void {
+  const currentTarget = event.currentTarget as HTMLElement | null
+  const nextTarget = event.relatedTarget as Node | null
+
+  if (currentTarget && nextTarget && currentTarget.contains(nextTarget)) {
+    return
+  }
+
+  setToastPaused(id, false)
+}
+
 function handleToastEvent(event: Event): void {
   if (!isToastEvent(event)) return
   if (!event.detail?.title) return
@@ -115,12 +126,18 @@ function handleToastEvent(event: Event): void {
 
 function resolveToastStyle(toast: ToastItem, index: number): Record<string, string> {
   const depth = Math.min(index, 4)
+  const scale = Math.max(0.8, 1 - depth * 0.04)
+  const opacity = Math.max(0.34, 1 - depth * 0.14)
+  const offset = -depth * 10
 
   return {
     '--vp-pro-toast-timeout': `${toast.timeout}ms`,
     '--vp-pro-toast-stack-index': String(depth),
     '--vp-pro-toast-progress': String(toast.progress),
-    zIndex: String(500 - index)
+    '--vp-pro-toast-stack-scale': scale.toFixed(3),
+    '--vp-pro-toast-stack-opacity': opacity.toFixed(3),
+    '--vp-pro-toast-stack-offset': `${offset}px`,
+    zIndex: String(600 - index)
   }
 }
 
@@ -155,7 +172,7 @@ onBeforeUnmount(() => {
         @mouseenter="setToastPaused(toast.id, true)"
         @mouseleave="setToastPaused(toast.id, false)"
         @focusin="setToastPaused(toast.id, true)"
-        @focusout="setToastPaused(toast.id, false)"
+        @focusout="handleToastFocusOut($event, toast.id)"
       >
         <div class="vp-pro-toast__icon">
           <BaseIcon :icon="colorIconMap[toast.color]" :width="18" :height="18" />
