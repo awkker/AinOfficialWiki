@@ -9,32 +9,42 @@ const SOCIAL_IMAGE_URL = new URL('/favicon.ico', SITE_URL).toString()
 function toCanonicalPath(relativePath: string): string {
   const normalized = relativePath.replace(/\\/g, '/')
 
-  if (normalized === 'index.md') return '/index.html'
+  if (normalized === 'index.md') return '/'
   if (normalized.endsWith('/index.md')) {
-    return `/${normalized.slice(0, -'index.md'.length)}index.html`
+    return `/${normalized.slice(0, -'index.md'.length)}`
   }
 
-  return `/${normalized.replace(/\.md$/, '.html')}`
+  return `/${normalized.replace(/\.md$/, '')}`
 }
 
-function toHtmlPathFromUrlPath(pathname: string): string {
-  const normalized = pathname.replace(/\\/g, '/')
-
-  if (normalized === '/' || normalized === '') return '/index.html'
-  if (normalized.endsWith('/')) return `${normalized}index.html`
-  if (normalized.endsWith('.html')) return normalized
-
-  return `${normalized}.html`
-}
-
-function toHtmlUrl(url: string): string {
+function toCanonicalUrl(url: string): string {
   try {
     const parsed = new URL(url, SITE_URL)
-    parsed.pathname = toHtmlPathFromUrlPath(parsed.pathname)
+    parsed.hash = ''
+    parsed.search = ''
+
+    let pathname = parsed.pathname.replace(/\\/g, '/')
+
+    if (pathname === '' || pathname === '/index' || pathname === '/index.html') {
+      pathname = '/'
+    } else if (pathname.endsWith('/index.html')) {
+      pathname = pathname.slice(0, -'index.html'.length)
+    } else if (pathname.endsWith('/index')) {
+      pathname = pathname.slice(0, -'index'.length)
+    } else if (pathname.endsWith('.html')) {
+      pathname = pathname.slice(0, -'.html'.length)
+    }
+
+    parsed.pathname = pathname || '/'
     return parsed.toString()
   } catch {
     return url
   }
+}
+
+function toCanonicalUrlFromRelativePath(relativePath: string): string {
+  const canonicalPath = toCanonicalPath(relativePath)
+  return toCanonicalUrl(new URL(canonicalPath, SITE_URL).toString())
 }
 
 function isSlidesUrl(url: string): boolean {
@@ -282,8 +292,7 @@ export default defineConfig({
 
   lastUpdated: true,
 
-  // Current deployment requires explicit .html routes.
-  cleanUrls: false,
+  cleanUrls: true,
 
   sitemap: {
     hostname: SITE_URL,
@@ -293,7 +302,7 @@ export default defineConfig({
         .filter((item) => !isSlidesUrl(item.url))
         .map((item) => ({
           ...item,
-          url: toHtmlUrl(item.url)
+          url: toCanonicalUrl(item.url)
         }))
     }
   },
@@ -310,14 +319,20 @@ export default defineConfig({
         ([tag, attrs]) => tag === 'link' && attrs?.rel === 'canonical'
       )
       if (!hasCanonical) {
-        const canonicalHref = new URL(toCanonicalPath(pageData.relativePath), SITE_URL).toString()
+        const canonicalHref = toCanonicalUrlFromRelativePath(pageData.relativePath)
         tags.push(['link', { rel: 'canonical', href: canonicalHref }])
       }
     }
 
-    const canonical =
+    const canonicalTagHref =
       tags.find(([tag, attrs]) => tag === 'link' && attrs.rel === 'canonical')?.[1].href ??
-      (head.find(([tag, attrs]) => tag === 'link' && attrs?.rel === 'canonical')?.[1]?.href || SITE_URL)
+      head.find(([tag, attrs]) => tag === 'link' && attrs?.rel === 'canonical')?.[1]?.href
+
+    const canonical = canonicalTagHref
+      ? toCanonicalUrl(canonicalTagHref)
+      : pageData.relativePath
+        ? toCanonicalUrlFromRelativePath(pageData.relativePath)
+        : SITE_URL
 
     tags.push(['meta', { name: 'robots', content: robots }])
 
@@ -385,16 +400,16 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     siteTitle: '3D环梦工坊编程竞赛组',
-    logoLink: '/index.html',
+    logoLink: '/',
     lastUpdatedText: '最后更新于',
 
     nav: [
-      { text: '主页', link: '/index.html' },
-      { text: '讲义', link: '/handouts/index.html' },
-      { text: '幻灯片', link: '/slides/index.html' },
-      { text: '教程', link: '/guides/index.html' },
-      { text: '资源', link: '/resource/lesson0-2025.html' },
-      { text: '竞赛', link: '/competition/index.html' }
+      { text: '主页', link: '/' },
+      { text: '讲义', link: '/handouts/' },
+      { text: '幻灯片', link: '/slides/' },
+      { text: '教程', link: '/guides/' },
+      { text: '资源', link: '/resource/lesson0-2025' },
+      { text: '竞赛', link: '/competition/' }
     ],
 
     sidebar: {
@@ -403,7 +418,7 @@ export default defineConfig({
         {
           text: '总览',
           items: [
-            { text: '讲义总览', link: '/handouts/index.html' }
+            { text: '讲义总览', link: '/handouts/' }
           ]
         },
         {
@@ -412,15 +427,15 @@ export default defineConfig({
             {
               text: 'C++ 基础',
               items: [
-                { text: 'C++ 输入输出与基础', link: '/handouts/lesson1-cpp-2025.html' },
-                { text: 'C++ 函数和结构体', link: '/handouts/lesson2-cpp-2025-function.html' },
-                { text: 'C++ STL库', link: '/handouts/lesson2-cpp-2025-STL.html' }
+                { text: 'C++ 输入输出与基础', link: '/handouts/lesson1-cpp-2025' },
+                { text: 'C++ 函数和结构体', link: '/handouts/lesson2-cpp-2025-function' },
+                { text: 'C++ STL库', link: '/handouts/lesson2-cpp-2025-STL' }
               ]
             },
             {
               text: 'Python 基础',
               items: [
-                { text: 'Python 基础教学', link: '/handouts/lesson4-Python.html' }
+                { text: 'Python 基础教学', link: '/handouts/lesson4-Python' }
               ]
             }
           ]
@@ -428,14 +443,14 @@ export default defineConfig({
         {
           text: '算法入门',
           items: [
-            { text: '算法入门：复杂度、排序与二分查找', link: '/handouts/lesson3-sort-2025.html' }
+            { text: '算法入门：复杂度、排序与二分查找', link: '/handouts/lesson3-sort-2025' }
           ]
         },
         {
           text: '前端开发',
           items: [
-            { text: 'Web 预习', link: '/handouts/lesson4_weblearn.html' },
-            { text: 'HTML/CSS/JavaScript入门', link: '/handouts/lesson4-html_and_css.html' }
+            { text: 'Web 预习', link: '/handouts/lesson4_weblearn' },
+            { text: 'HTML/CSS/JavaScript入门', link: '/handouts/lesson4-html_and_css' }
           ]
         },
         {
@@ -444,7 +459,7 @@ export default defineConfig({
             {
               text: 'Git版本控制',
               items: [
-                { text: 'GitHub协作教程', link: '/handouts/lesson2-git-2025.html' }
+                { text: 'GitHub协作教程', link: '/handouts/lesson2-git-2025' }
               ]
             }
           ]
@@ -456,22 +471,22 @@ export default defineConfig({
         {
           text: '总览',
           items: [
-            { text: '幻灯片总览', link: '/slides/index.html' }
+            { text: '幻灯片总览', link: '/slides/' }
           ]
         },
         {
           text: '课程幻灯片',
           items: [
-            { text: '2025新生指南', link: '/slides/guide-2025.html' },
-            { text: 'C++ 基础教程', link: '/slides/cpp-basics.html' },
-            { text: 'C++ 函数、结构体与 STL', link: '/slides/cpp-function-stl.html' },
-            { text: '算法入门：复杂度、排序与二分查找', link: '/slides/algorithm-intro.html' }
+            { text: '2025新生指南', link: '/slides/guide-2025' },
+            { text: 'C++ 基础教程', link: '/slides/cpp-basics' },
+            { text: 'C++ 函数、结构体与 STL', link: '/slides/cpp-function-stl' },
+            { text: '算法入门：复杂度、排序与二分查找', link: '/slides/algorithm-intro' }
           ]
         },
         {
           text: '示例',
           items: [
-            { text: '编程入门演示', link: '/slides/demo.html' }
+            { text: '编程入门演示', link: '/slides/demo' }
           ]
         }
       ],
@@ -481,19 +496,19 @@ export default defineConfig({
         {
           text: '总览',
           items: [
-            { text: '教程总览', link: '/guides/index.html' }
+            { text: '教程总览', link: '/guides/' }
           ]
         },
         {
           text: '前端开发',
           items: [
-            { text: '建设中', link: '/guides/index.html' }
+            { text: '建设中', link: '/guides/' }
           ]
         },
         {
           text: '后端开发',
           items: [
-            { text: '建设中', link: '/guides/index.html' }
+            { text: '建设中', link: '/guides/' }
           ]
         },
         {
@@ -502,13 +517,13 @@ export default defineConfig({
             {
               text: 'Linux',
               items: [
-                { text: '安装年轻人的第一个Linux虚拟机', link: '/guides/first-vm-2024.html' }
+                { text: '安装年轻人的第一个Linux虚拟机', link: '/guides/first-vm-2024' }
               ]
             },
             {
               text: 'Git版本控制',
               items: [
-                { text: 'Git使用基础和工作流', link: '/guides/git-basics.html' }
+                { text: 'Git使用基础和工作流', link: '/guides/git-basics' }
               ]
             }
           ]
@@ -516,19 +531,19 @@ export default defineConfig({
         {
           text: 'OJ平台',
           items: [
-            { text: 'Virtual Judge 使用指南', link: '/guides/virtual-judge-guide.html' }
+            { text: 'Virtual Judge 使用指南', link: '/guides/virtual-judge-guide' }
           ]
         },
         {
           text: '理论基础',
           items: [
-            { text: '线性代数的艺术（中文）', link: '/guides/the-art-of-linear-algebra-zh-cn.html' }
+            { text: '线性代数的艺术（中文）', link: '/guides/the-art-of-linear-algebra-zh-cn' }
           ]
         },
         {
           text: '编程语言',
           items: [
-            { text: 'DevC++使用教程', link: '/guides/devcpp-guide.html' }
+            { text: 'DevC++使用教程', link: '/guides/devcpp-guide' }
           ]
         }
       ],
@@ -538,14 +553,14 @@ export default defineConfig({
         {
           text: '总览',
           items: [
-            { text: '资源总览', link: '/resource/index.html' }
+            { text: '资源总览', link: '/resource/' }
           ]
         },
         {
           text: '导学与活动',
           items: [
-            { text: '2025年第0节课', link: '/resource/lesson0-2025.html' },
-            { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025.html' }
+            { text: '2025年第0节课', link: '/resource/lesson0-2025' },
+            { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025' }
           ]
         },
         {
@@ -554,20 +569,20 @@ export default defineConfig({
             {
               text: '项目组件',
               items: [
-                { text: '总览', link: '/resource/project-components.html' },
-                { text: 'Accordion', link: '/resource/project-components/accordion.html' },
-                { text: 'Asides', link: '/resource/project-components/asides.html' },
-                { text: 'Badges', link: '/resource/project-components/badges.html' },
-                { text: 'Checkbox', link: '/resource/project-components/checkbox.html' },
-                { text: 'Checkbox Group', link: '/resource/project-components/checkbox-group.html' },
-                { text: 'Code', link: '/resource/project-components/code.html' },
-                { text: 'File Tree', link: '/resource/project-components/file-tree.html' },
-                { text: 'Link Buttons', link: '/resource/project-components/link-buttons.html' },
-                { text: 'Link Cards', link: '/resource/project-components/link-cards.html' },
-                { text: 'Steps', link: '/resource/project-components/steps.html' },
-                { text: 'Table', link: '/resource/project-components/table.html' },
-                { text: 'Tabs', link: '/resource/project-components/tabs.html' },
-                { text: 'Toast', link: '/resource/project-components/toast.html' }
+                { text: '总览', link: '/resource/project-components' },
+                { text: 'Accordion', link: '/resource/project-components/accordion' },
+                { text: 'Asides', link: '/resource/project-components/asides' },
+                { text: 'Badges', link: '/resource/project-components/badges' },
+                { text: 'Checkbox', link: '/resource/project-components/checkbox' },
+                { text: 'Checkbox Group', link: '/resource/project-components/checkbox-group' },
+                { text: 'Code', link: '/resource/project-components/code' },
+                { text: 'File Tree', link: '/resource/project-components/file-tree' },
+                { text: 'Link Buttons', link: '/resource/project-components/link-buttons' },
+                { text: 'Link Cards', link: '/resource/project-components/link-cards' },
+                { text: 'Steps', link: '/resource/project-components/steps' },
+                { text: 'Table', link: '/resource/project-components/table' },
+                { text: 'Tabs', link: '/resource/project-components/tabs' },
+                { text: 'Toast', link: '/resource/project-components/toast' }
               ]
             }
           ]
@@ -579,9 +594,9 @@ export default defineConfig({
         {
           text: '竞赛',
           items: [
-            { text: '竞赛总览', link: '/competition/index.html' },
-            { text: '2025年教育部认可竞赛榜单', link: '/competition/competition-lists-2025.html' },
-            { text: '春季学期重要竞赛一览', link: '/competition/competition-introductions.html' }
+            { text: '竞赛总览', link: '/competition/' },
+            { text: '2025年教育部认可竞赛榜单', link: '/competition/competition-lists-2025' },
+            { text: '春季学期重要竞赛一览', link: '/competition/competition-introductions' }
           ]
         }
       ]
