@@ -8,6 +8,7 @@ import './style.css'
 import ClerkToc from './components/ClerkToc.vue'
 import SlideEmbed from './components/SlideEmbed.vue'
 import DocCopyright from './components/DocCopyright.vue'
+import SidebarBulkToggle from './components/SidebarBulkToggle.vue'
 import LinkCard from './components/ui/LinkCard.vue'
 import Aside from './components/ui/Aside.vue'
 import Badge from './components/ui/Badge.vue'
@@ -111,6 +112,8 @@ export default {
     return h(DefaultTheme.Layout, null, {
       // 右侧 TOC 改为 Clerk 风格组件
       'aside-outline-before': () => h(ClerkToc),
+      // 左侧侧边栏底部增加一键展开/折叠
+      'sidebar-nav-after': () => h(SidebarBulkToggle),
       // 放在文档 footer 内，显示在 Next/Previous 导航上方
       'doc-footer-before': () => h(DocCopyright),
       // https://vitepress.dev/guide/extending-default-theme#layout-slots

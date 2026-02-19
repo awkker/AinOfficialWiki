@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig, type DefaultTheme } from 'vitepress'
 import markdownItFootnote from 'markdown-it-footnote'
 import markdownItKatexModern from './markdown-it-katex-modern'
 import { normalizeLanguageId, resolveLanguageLabel, resolveLanguageShortLabel } from './shared/language-labels'
@@ -271,6 +271,44 @@ const customElements = [
   'annotation-xml'
 ]
 
+function withCollapsibleSidebarItems(items: DefaultTheme.SidebarItem[]): DefaultTheme.SidebarItem[] {
+  return items.map((item) => {
+    const next: DefaultTheme.SidebarItem = { ...item }
+
+    if (item.items?.length) {
+      next.items = withCollapsibleSidebarItems(item.items)
+
+      if (next.collapsed == null) {
+        next.collapsed = true
+      }
+    }
+
+    return next
+  })
+}
+
+function withCollapsibleSidebar(sidebar: DefaultTheme.Sidebar): DefaultTheme.Sidebar {
+  if (Array.isArray(sidebar)) {
+    return withCollapsibleSidebarItems(sidebar)
+  }
+
+  const next: DefaultTheme.SidebarMulti = {}
+
+  for (const [path, value] of Object.entries(sidebar)) {
+    if (Array.isArray(value)) {
+      next[path] = withCollapsibleSidebarItems(value)
+      continue
+    }
+
+    next[path] = {
+      ...value,
+      items: withCollapsibleSidebarItems(value.items)
+    }
+  }
+
+  return next
+}
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/',
@@ -412,7 +450,7 @@ export default defineConfig({
       { text: '竞赛', link: '/competition/' }
     ],
 
-    sidebar: {
+    sidebar: withCollapsibleSidebar({
       // 讲义侧边栏 - 只在访问 /handouts/ 路径时显示
       '/handouts/': [
         {
@@ -600,7 +638,7 @@ export default defineConfig({
           ]
         }
       ]
-    },
+    }),
 
     socialLinks: [
       { icon: 'qq', link: 'https://qm.qq.com/q/ZlktjRUdqg' }
