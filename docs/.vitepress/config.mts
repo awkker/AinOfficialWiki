@@ -580,6 +580,23 @@ export default defineConfig({
           ]
         },
         {
+          text: 'AI',
+          items: [
+            {
+              text: 'Vibe Coding',
+              items: [
+                { text: '通过 Skills 改善前端设计', link: '/guides/improving-frontend-design-through-skills' }
+              ]
+            },
+            {
+              text: 'AI写作',
+              items: [
+                { text: '如何清理 AI 生成的草稿，去除 ChatGPT 味', link: '/guides/ai-editing-202601' }
+              ]
+            }
+          ]
+        },
+        {
           text: '编程语言',
           items: [
             { text: 'DevC++使用教程', link: '/guides/devcpp-guide' }
