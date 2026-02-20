@@ -279,7 +279,7 @@ function withCollapsibleSidebarItems(items: DefaultTheme.SidebarItem[]): Default
       next.items = withCollapsibleSidebarItems(item.items)
 
       if (next.collapsed == null) {
-        next.collapsed = true
+        next.collapsed = false
       }
     }
 
