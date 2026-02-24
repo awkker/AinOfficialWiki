@@ -13,7 +13,7 @@
 - **考核对象**：2025 级本科生，专业不限，环梦工坊社员/非社员均可参与
 - **开始时间**：2026 年 2 月 24 日 00:00
 - **截止时间**：**2026 年 3 月 23 日 24:00**（截止后系统将关闭）
-- **提交平台**：https://docs.qq.com/form/page/DZmZrWWdrUk1HQXV3
+- **提交平台**：<LinkCard title="2026 寒假考核提交平台" href="https://docs.qq.com/form/page/DZmZrWWdrUk1HQXV3" description="提交 GitHub 仓库、文档及演示视频" icon="mdi:upload" />
 - **提交形式**：请在平台对应入口提交你的 **GitHub 仓库链接**、**文档链接**及**演示视频链接**。
 
 ## 二、考核项目
@@ -24,7 +24,10 @@
 - **D / E / F**：偏工程开发（前后端 / 运维 / 自命题）  
 - **G**：算法题题单（面向竞赛训练）
 
+
 ### 项目A：基于 OpenClaw 的 AI 助手部署实践
+
+<LinkCard title="项目 A：AI 助手部署" href="/resource/timu/A.html" description="基于 OpenClaw 的 AI 助手部署实践" icon="mdi:robot-outline" />
 
 - **项目简介：** 在 Linux 或 Mac 环境下部署并调教属于你自己的 AI Agent，接入国产大模型，实现自动化任务、消息汇总、运维监控等功能。
 - **核心技术栈：** Linux、Docker、AI Agent 框架、API 集成、自动化脚本。
@@ -33,12 +36,16 @@
 
 ### 项目B：基于 vLLM 的 OCR 服务部署与实践
 
+<LinkCard title="项目 B：OCR 服务部署" href="/resource/timu/B.html" description="基于 vLLM 的 OCR 服务部署与实践" icon="mdi:eye-outline" />
+
 - **项目简介：** 选择一款多模态 OCR 模型，使用 vLLM 部署推理服务，实现对复杂文档（PDF、图片）的文字提取与结构化识别。
 - **核心技术栈：** Docker、vLLM、OCR 模型、GPU 加速、Python、Web 开发（可选）。
 - **考核及格线：** 至少完成 **Level 3**（对不同类型 PDF 进行 OCR，如单栏和双栏英文）。
 - **适合方向：** 对计算机视觉、文档智能处理、大模型部署感兴趣的同学。
 
 ### 项目 C：具身智能世界模型本地部署优化
+
+<LinkCard title="项目 C：具身智能世界模型" href="/resource/timu/C.html" description="部署宇树科技 UnifoLM 世界模型" icon="mdi:robot-industrial" />
 
 **项目简介：** 具身智能赋予了虚拟人工智能实体感知并预判物理世界的基本能力。本项目深度聚焦于宇树科技 UnifoLM 视觉动作预测大模型的本地化部署优化。开发者将运用系统内存交换扩容与混合精度计算等极限工程降级优化手段。庞大的工业级权重矩阵借此可在显存严重受限的消费级算力设备上稳定运行。
 
@@ -50,6 +57,8 @@
 
 ### 项目 D：一键网络切换与基础隔离
 
+<LinkCard title="项目 D：网络切换与隔离" href="/resource/timu/D.html" description="一键网络切换与基础隔离 (Linux 运维)" icon="mdi:network-outline" />
+
 **项目简介：** 物理服务器往往需要频繁适配极其复杂的底层网络拓扑流转环境。开发者需要采用纯粹的 Bash 脚本语言编写具备高度幂等性的底层网络控制组件。该系统全权负责在办公局域网的动态寻址与生产数据网络的静态配置间快速无缝切换。它还要求系统实现基础的操作系统级公网访问安全隔离防火墙策略 。
 
 **核心技术栈：** 纯粹的 Bash 底层脚本编程、Linux 系统内核网络命令深度调用以及底层路由防火墙安全控制策略配置。
@@ -59,6 +68,8 @@
 **适合方向：** 该项目专为深度痴迷 Linux 系统运维编排体系的爱好者而设计。希望彻底夯实底层网络架构寻址与安全隔离控制基础的同学可以勇敢尝试。
 
 ### 项目 E：MikuCMS 简易内容管理系统
+
+<LinkCard title="项目 E：MikuCMS" href="/resource/timu/E.html" description="简易内容管理系统开发" icon="mdi:web" />
 
 **项目简介：** 博客文章与社区论坛构成了现代互联网生态交互的最基础业务形态。本命题要求开发者从零构建一个前后端高度解耦的轻量级内容分发管理平台。你需要独立设计极其规范的底层关系型数据库结构映射关联关系。该系统深度涵盖了用户敏感密码加密鉴权与底层 Markdown 源码动态视图渲染等核心业务控制逻辑。
 
@@ -70,12 +81,16 @@
 
 ### 项目F：自命题项目
 
+<LinkCard title="项目 F：自命题项目" href="/resource/timu/F.html" description="自由选题，挑战复杂项目" icon="mdi:code-tags" />
+
 - **项目简介：** 如果你有自己的想法，可以选择自命题。需提前与负责人沟通确认选题可行性。
 - **参考选题：** LLM 驱动的搜索引擎、RAG 知识库、编码助手、PPT 生成器、AI 虚拟助手/数字人等。
 - **考核及格线：** 至少实现 **3 个与选题强相关的核心功能**，项目完成度较高，文档完整。
 - **适合方向：** 有明确兴趣方向、具备自主学习能力、希望挑战复杂项目的同学。
 
 ### 项目G：算法刷题
+
+<LinkCard title="项目 G：算法刷题" href="/resource/timu/G.html" description="算法竞赛训练题单" icon="mdi:sigma" />
 
 - **项目简介：** 针对希望专注算法竞赛的同学，提供题单，完成指定数量的算法题目，帮助大家备战蓝桥杯等算法竞赛。
 - **考核及格线：** 完成题单的 **75%** 即可通过。
@@ -85,7 +100,7 @@
 
 ### 提交平台
 
-****
+<LinkCard title="2026 寒假考核提交平台" href="https://docs.qq.com/form/page/DZmZrWWdrUk1HQXV3" description="提交 GitHub 仓库、文档及演示视频" icon="mdi:upload" />
 
 ### 提交内容
 
@@ -113,7 +128,10 @@
    需提交刷题平台 ID 与完成情况证明（截图/链接等），并确保能核验题目完成量与通过率。
 
 5. **个人简历（PDF）：**  
-   可使用及时简历制作并导出 PDF：<https://resume.hxcn.space>  
+   可使用及时简历制作并导出 PDF：
+
+   <LinkCard title="及时简历 (Resume)" href="https://resume.hxcn.space" description="在线制作并导出 PDF 简历" icon="mdi:file-account-outline" />
+
    提交 PDF 文件或可访问的分享链接均可。
 
 ### 提交格式要求
