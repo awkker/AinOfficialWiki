@@ -4,13 +4,24 @@ import type Token from 'markdown-it/lib/token'
 
 type KatexOptions = katex.KatexOptions
 
+const KATEX_IGNORED_WARNING_CODES = new Set([
+  // Many imported docs contain non-breaking spaces in formulas.
+  'unknownSymbol',
+  // Existing docs intentionally use Chinese text in math mode.
+  'unicodeTextInMathMode',
+  // Existing docs include display-mode line breaks for readability.
+  'newLineInDisplayMode'
+])
+
 function escapeHtml(md: MarkdownIt, raw: string) {
   return md.utils.escapeHtml(raw)
 }
 
 function renderKatex(md: MarkdownIt, tex: string, displayMode: boolean, options: KatexOptions) {
   try {
-    return katex.renderToString(tex, { ...options, displayMode })
+    // Normalize NBSP to regular spaces to avoid noisy strict warnings.
+    const normalizedTex = tex.replaceAll('\u00a0', ' ')
+    return katex.renderToString(normalizedTex, { ...options, displayMode })
   } catch (err) {
     return `<code class="katex-error">${escapeHtml(md, tex)}</code>`
   }
@@ -26,7 +37,10 @@ export default function markdownItKatexModern(
   md: MarkdownIt,
   options: KatexOptions = {
     throwOnError: false,
-    output: 'html'
+    output: 'html',
+    strict: (errorCode) => {
+      return KATEX_IGNORED_WARNING_CODES.has(String(errorCode)) ? 'ignore' : 'warn'
+    }
   }
 ) {
   md.inline.ruler.after('escape', 'math_inline', (state, silent) => {
@@ -107,4 +121,3 @@ export default function markdownItKatexModern(
     return `<p>${html}</p>\n`
   }
 }
-
