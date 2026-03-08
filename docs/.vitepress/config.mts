@@ -447,7 +447,8 @@ export default defineConfig({
       { text: '幻灯片', link: '/slides/' },
       { text: '教程', link: '/guides/' },
       { text: '资源', link: '/resource/lesson0-2025' },
-      { text: '竞赛', link: '/competition/' }
+      { text: '竞赛', link: '/competition/' },
+      { text: '科研', link: '/research/' }
     ],
 
     sidebar: withCollapsibleSidebar({
@@ -686,6 +687,12 @@ export default defineConfig({
             { text: '竞赛总览', link: '/competition/' },
             { text: '2025年教育部认可竞赛榜单', link: '/competition/competition-lists-2025' },
             { text: '春季学期重要竞赛一览', link: '/competition/competition-introductions' }
+          ]
+        },
+        {
+          text: '其他',
+          items: [
+            { text: '竞赛报销说明', link: '/competition/reimbursement-guide' }
           ]
         }
       ]

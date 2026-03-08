@@ -34,6 +34,10 @@ description: 本页系统介绍 NOI、NOIP、CSP-J/S 等常见编程竞赛体系
 3. 动态规划
 4. 数学问题
 
+## 其他
+
+- [报销发票指南](./reimbursement-guide) - 团队成员参加竞赛相关费用的报销流程说明。
+
 ## 相关资源
 
 查看 [资源页面](/resource/lesson0-2025) 获取更多学习资料。
