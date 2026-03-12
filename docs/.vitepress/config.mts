@@ -636,7 +636,8 @@ export default defineConfig({
           items: [
             { text: '2025年第0节课', link: '/resource/lesson0-2025' },
             { text: '2025年编程竞赛组见面会', link: '/resource/meet-and-greet-2025' },
-            { text: '2026 寒假纳新题目', link: '/resource/timu/timu' }
+            { text: '2026 寒假纳新题目', link: '/resource/timu/timu' },
+            { text: '小米杯考核：四足机器人仿真环境搭建与运行', link: '/resource/xiaomi-cup-cyberdog' }
           ]
         },
         {
@@ -651,6 +652,12 @@ export default defineConfig({
             { text : 'F题', link: '/resource/timu/F' },
             { text : 'G题', link: '/resource/timu/G' },
             { text : '纳新抽奖', link: '/resource/timu/2026-winter-projects-draw' }
+          ]
+        },
+        {
+          text: '小米杯考核',
+          items: [
+            { text: '四足机器人仿真环境搭建与运行', link: '/resource/xiaomi-cup-cyberdog' }
           ]
         },
         {
