@@ -3,6 +3,7 @@ import markdownItFootnote from 'markdown-it-footnote'
 import markdownItKatexModern from './markdown-it-katex-modern'
 import { resolveCodeLanguageMeta } from './shared/code-language-meta'
 import { resolveLanguageLabel, resolveLanguageShortLabel } from './shared/language-labels'
+import { useMarkdownTableDirective } from './theme/markdown-table-directive'
 
 const SITE_URL = 'https://ain.hmgf.hxcn.space'
 const SOCIAL_IMAGE_URL = new URL('/favicon.ico', SITE_URL).toString()
@@ -172,6 +173,13 @@ function enhanceFenceLanguageLabel(md: any) {
     const languageMeta = resolveCodeLanguageMeta(rawInfo || 'text')
     const normalizedInfo = rawInfo ? info.replace(rawInfo, languageMeta.language) : info
     const originalInfo = token?.info
+
+    if (languageMeta.language === 'mermaid') {
+      const source = String(token?.content ?? '')
+      const encoded = encodeURIComponent(source)
+
+      return `<ClientOnly><MermaidBlock code="${escapeHtmlAttribute(encoded)}" :encoded="true" /></ClientOnly>`
+    }
 
     if (token && normalizedInfo !== info) {
       token.info = normalizedInfo
@@ -448,6 +456,7 @@ export default defineConfig({
       md.use(markdownItKatexModern)
       md.use(markdownItFootnote)
       md.use(markdownItToc)
+      useMarkdownTableDirective(md)
       enhanceFenceLanguageLabel(md)
     }
   },

@@ -1,55 +1,14 @@
 <script setup lang="ts">
-import { createHighlighter } from 'shiki'
 import { computed, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
 import type { CSSProperties, VNode } from 'vue'
 import { resolveCodeLanguageMeta } from '../../../shared/code-language-meta'
 import { resolveLanguageLabel, resolveLanguageShortLabel } from '../../../shared/language-labels'
 import { addToast } from './toast'
 import BaseIcon from './BaseIcon.vue'
+import MermaidBlock from './MermaidBlock.vue'
 import { normalizeLanguage, resolveLanguageAccent, resolveLanguageIcon } from './icon-map'
+import { getShikiHighlighterPromise, shouldUseShikiForLanguage, SHIKI_THEMES } from './shiki-highlighter'
 import { writeClipboard } from '../../utils/clipboard'
-
-const SHIKI_THEMES = {
-  light: 'github-light',
-  dark: 'github-dark'
-} as const
-
-const SHIKI_LANGS = [
-  'txt',
-  'md',
-  'markdown',
-  'latex',
-  'js',
-  'jsx',
-  'ts',
-  'tsx',
-  'vue',
-  'svelte',
-  'astro',
-  'html',
-  'css',
-  'scss',
-  'json',
-  'yaml',
-  'toml',
-  'xml',
-  'sh',
-  'bash',
-  'shellscript',
-  'powershell',
-  'py',
-  'python',
-  'c',
-  'cpp',
-  'java',
-  'go',
-  'rs',
-  'rust',
-  'php',
-  'rb',
-  'ruby',
-  'sql'
-] as const
 
 const SHIKI_LANGUAGE_ALIAS_MAP: Record<string, string> = {
   text: 'txt',
@@ -57,13 +16,43 @@ const SHIKI_LANGUAGE_ALIAS_MAP: Record<string, string> = {
   tex: 'latex',
   yml: 'yaml',
   react: 'jsx',
+  jquery: 'js',
   angular: 'ts',
+  'angular-ts': 'ts',
   solid: 'tsx',
   preact: 'jsx',
   nextjs: 'tsx',
   nuxt: 'vue',
   remix: 'tsx',
   qwik: 'tsx',
+  ini: 'ini',
+  pgsql: 'sql',
+  mariadb: 'sql',
+  mysql: 'sql',
+  sqlite: 'sql',
+  hive: 'sql',
+  assembly: 'asm',
+  basic: 'vb',
+  makefile: 'makefile',
+  cpython: 'python',
+  django: 'html',
+  flutter: 'dart',
+  fortran: 'fortran-free-form',
+  htaccess: 'apache',
+  https: 'http',
+  objectivec: 'objective-c',
+  objc: 'objective-c',
+  octave: 'matlab',
+  pegjs: 'js',
+  pgp: 'txt',
+  properties: 'properties',
+  r: 'r',
+  sequence: 'mermaid',
+  squirrel: 'sql',
+  systemverilog: 'verilog',
+  visualbasic: 'vb',
+  vbscript: 'vb',
+  velocity: 'html',
   sh: 'shellscript',
   zsh: 'shellscript',
   fish: 'shellscript',
@@ -74,11 +63,6 @@ const SHIKI_LANGUAGE_ALIAS_MAP: Record<string, string> = {
   rb: 'ruby',
   kt: 'kotlin'
 }
-
-const shikiHighlighterPromise = createHighlighter({
-  themes: [SHIKI_THEMES.light, SHIKI_THEMES.dark],
-  langs: [...SHIKI_LANGS]
-})
 
 const props = withDefaults(
   defineProps<{
@@ -91,6 +75,8 @@ const props = withDefaults(
     color?: string
     hideLineNumbers?: boolean
     disableCopy?: boolean
+    mermaidTheme?: string
+    mermaidView?: 'code' | 'render'
   }>(),
   {
     lang: 'text',
@@ -101,7 +87,9 @@ const props = withDefaults(
     wrap: false,
     color: '',
     hideLineNumbers: false,
-    disableCopy: false
+    disableCopy: false,
+    mermaidTheme: 'default',
+    mermaidView: 'code'
   }
 )
 
@@ -209,6 +197,7 @@ const renderedCode = computed(() => {
 
 const resolvedPath = computed(() => props.path || props.title)
 const hasPath = computed(() => Boolean(resolvedPath.value))
+const isMermaidBlock = computed(() => normalizedLang.value === 'mermaid')
 
 const resolvedIcon = computed(() => {
   if (props.icon) return props.icon
@@ -265,6 +254,11 @@ function toFallbackShikiHtml(code: string): string {
 async function updateHighlight() {
   const source = renderedCode.value
 
+  if (!shouldUseShikiForLanguage(normalizedLang.value)) {
+    highlightedHtml.value = '<pre class="shiki shiki-themes"><code></code></pre>'
+    return
+  }
+
   if (!source) {
     highlightedHtml.value = '<pre class="shiki shiki-themes"><code></code></pre>'
     return
@@ -279,7 +273,7 @@ async function updateHighlight() {
   const language = resolveShikiLanguage(normalizedLang.value)
 
   try {
-    const highlighter = await shikiHighlighterPromise
+    const highlighter = await getShikiHighlighterPromise()
     const html = highlighter.codeToHtml(source, {
       lang: language,
       themes: SHIKI_THEMES
@@ -370,6 +364,7 @@ onBeforeUnmount(() => {
 
 <template>
   <section
+    v-if="!isMermaidBlock"
     class="vp-pro-code"
     :class="{
       'is-line-numbers-hidden': !showLineNumbers,
@@ -396,7 +391,7 @@ onBeforeUnmount(() => {
           {{ languageLabel }}
         </span>
 
-        <span v-if="languageMeta.isRootUser" class="vp-pro-code__badge vp-pro-code__badge--root">
+        <span v-if="!hasPath && languageMeta.isRootUser" class="vp-pro-code__badge vp-pro-code__badge--root">
           {{ languageMeta.rootBadgeLabel }}
         </span>
       </span>
@@ -428,4 +423,14 @@ onBeforeUnmount(() => {
 
     <div class="vp-pro-code__pre" :class="{ 'is-wrap': wrap }" v-html="highlightedHtml" />
   </section>
+
+  <MermaidBlock
+    v-else
+    :code="renderedCode"
+    :title="resolvedPath"
+    :theme-preset="mermaidTheme"
+    :initial-view="mermaidView"
+    :allow-view-toggle="true"
+    :disable-copy="disableCopy"
+  />
 </template>
