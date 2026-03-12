@@ -701,6 +701,15 @@ export default defineConfig({
           text: '贡献项目',
           items: [
             {
+              text: 'Slidev',
+              items: [
+                { text: '总览', link: '/resource/project-slidev' },
+                { text: '项目主题使用', link: '/resource/project-slidev/theme' },
+                { text: '独立访问链接', link: '/resource/project-slidev/standalone-access' },
+                { text: '嵌入到文档中', link: '/resource/project-slidev/embed-in-docs' }
+              ]
+            },
+            {
               text: '项目组件',
               items: [
                 { text: '总览', link: '/resource/project-components' },
