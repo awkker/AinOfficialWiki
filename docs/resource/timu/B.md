@@ -1,4 +1,4 @@
-# B. 视觉智能：多模态 OCR 部署与应用
+# 项目 B：基于 vLLM 的 OCR 服务部署与实践
 
 > **背景引言**：
 >
@@ -209,4 +209,3 @@ python3 -m vllm.entrypoints.openai.api_server \
 
 - 实现“上传英文 PDF -> 输出中英对照文档”的完整演示视频。
 - 分享你用于翻译的 Prompt 设计思路。
-

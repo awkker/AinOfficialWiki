@@ -24,19 +24,29 @@
 - **D / E / F**：偏工程开发（前后端 / 运维 / 自命题）  
 - **G**：算法题题单（面向竞赛训练）
 
+### 小米杯考核：四足机器人仿真环境搭建
 
-### 项目A：基于 OpenClaw 的 AI 助手部署实践
+<LinkCard title="2026年全国大学生计算机系统能力大赛智能系统创新设计赛（小米杯）章程" href="https://mp.weixin.qq.com/s?__biz=MzI2MjI1NDMxOQ==&mid=2247519621&idx=1&sn=d927f0f7614a31e119867610cb96b39b&chksm=eb1cbf391a2c629633761bec6539dc44b42b661e15b1c01a8785a4c14e16dfe7c47543407847&mpshare=1&scene=23&srcid=0310UrH43uca4f0pjRddxknc&sharer_shareinfo=7fa6c43b1e0a8b0f80dae4a1fb50f03e&sharer_shareinfo_first=2b3c7a174cfdbfa62f889358c8a4ad14#rd" description="大赛已开启，赛事信息以章程为准" icon="mdi:trophy-outline" />
 
-<LinkCard title="项目 A：AI 助手部署" href="/resource/timu/A.html" description="基于 OpenClaw 的 AI 助手部署实践" icon="mdi:robot-outline" />
+<LinkCard title="小米杯考核：四足机器人仿真环境搭建" href="/resource/xiaomi-cup-cyberdog" description="环梦工坊赛前考核与基础环境搭建说明" icon="mdi:robot-industrial-outline" />
+
+- **赛事状态：** 2026 年小米杯已开启，详情请查看上方章程。
+- **往届成绩：** 环梦工坊成员在 2025 年小米杯中获得 **1 项国家一等奖、2 项国家二等奖**。
+- **参赛支持：** 如计划参赛，组内会提供相应辅导。
+- **参与要求：** 需要先完成 **小米杯考核：四足机器人仿真环境搭建**，或完成下方任意一道寒假考核题，并通过面试。
+
+### 项目 A：基于 OpenClaw 的 AI 助手部署实践
+
+<LinkCard title="项目 A：基于 OpenClaw 的 AI 助手部署实践" href="/resource/timu/A.html" description="基于 OpenClaw 的 AI 助手部署实践" icon="mdi:robot-outline" />
 
 - **项目简介：** 在 Linux 或 Mac 环境下部署并调教属于你自己的 AI Agent，接入国产大模型，实现自动化任务、消息汇总、运维监控等功能。
 - **核心技术栈：** Linux、Docker、AI Agent 框架、API 集成、自动化脚本。
 - **考核及格线：** 至少完成 **Level 2**（实现每日AI消息汇总功能）。
 - **适合方向：** 对 AI 应用部署、自动化运维、Linux 系统感兴趣的同学。
 
-### 项目B：基于 vLLM 的 OCR 服务部署与实践
+### 项目 B：基于 vLLM 的 OCR 服务部署与实践
 
-<LinkCard title="项目 B：OCR 服务部署" href="/resource/timu/B.html" description="基于 vLLM 的 OCR 服务部署与实践" icon="mdi:eye-outline" />
+<LinkCard title="项目 B：基于 vLLM 的 OCR 服务部署与实践" href="/resource/timu/B.html" description="基于 vLLM 的 OCR 服务部署与实践" icon="mdi:eye-outline" />
 
 - **项目简介：** 选择一款多模态 OCR 模型，使用 vLLM 部署推理服务，实现对复杂文档（PDF、图片）的文字提取与结构化识别。
 - **核心技术栈：** Docker、vLLM、OCR 模型、GPU 加速、Python、Web 开发（可选）。
@@ -45,7 +55,7 @@
 
 ### 项目 C：具身智能世界模型本地部署优化
 
-<LinkCard title="项目 C：具身智能世界模型" href="/resource/timu/C.html" description="部署宇树科技 UnifoLM 世界模型" icon="mdi:robot-industrial" />
+<LinkCard title="项目 C：具身智能世界模型本地部署优化" href="/resource/timu/C.html" description="部署宇树科技 UnifoLM 世界模型" icon="mdi:robot-industrial" />
 
 **项目简介：** 具身智能赋予了虚拟人工智能实体感知并预判物理世界的基本能力。本项目深度聚焦于宇树科技 UnifoLM 视觉动作预测大模型的本地化部署优化。开发者将运用系统内存交换扩容与混合精度计算等极限工程降级优化手段。庞大的工业级权重矩阵借此可在显存严重受限的消费级算力设备上稳定运行。
 
@@ -57,7 +67,7 @@
 
 ### 项目 D：一键网络切换与基础隔离
 
-<LinkCard title="项目 D：网络切换与隔离" href="/resource/timu/D.html" description="一键网络切换与基础隔离 (Linux 运维)" icon="mdi:network-outline" />
+<LinkCard title="项目 D：一键网络切换与基础隔离" href="/resource/timu/D.html" description="一键网络切换与基础隔离 (Linux 运维)" icon="mdi:network-outline" />
 
 **项目简介：** 物理服务器往往需要频繁适配极其复杂的底层网络拓扑流转环境。开发者需要采用纯粹的 Bash 脚本语言编写具备高度幂等性的底层网络控制组件。该系统全权负责在办公局域网的动态寻址与生产数据网络的静态配置间快速无缝切换。它还要求系统实现基础的操作系统级公网访问安全隔离防火墙策略 。
 
@@ -69,7 +79,7 @@
 
 ### 项目 E：MikuCMS 简易内容管理系统
 
-<LinkCard title="项目 E：MikuCMS" href="/resource/timu/E.html" description="简易内容管理系统开发" icon="mdi:web" />
+<LinkCard title="项目 E：MikuCMS 简易内容管理系统" href="/resource/timu/E.html" description="简易内容管理系统开发" icon="mdi:web" />
 
 **项目简介：** 博客文章与社区论坛构成了现代互联网生态交互的最基础业务形态。本命题要求开发者从零构建一个前后端高度解耦的轻量级内容分发管理平台。你需要独立设计极其规范的底层关系型数据库结构映射关联关系。该系统深度涵盖了用户敏感密码加密鉴权与底层 Markdown 源码动态视图渲染等核心业务控制逻辑。
 
@@ -79,7 +89,7 @@
 
 **适合方向：** 渴望突破单一语言边界的全栈开发探索者是本命题的最佳受众群体。它极其适合希望通过实战系统锻炼后端 API 路由接口设计与业务数据库防范建模能力的同学。
 
-### 项目F：自命题项目
+### 项目 F：自命题项目
 
 <LinkCard title="项目 F：自命题项目" href="/resource/timu/F.html" description="自由选题，挑战复杂项目" icon="mdi:code-tags" />
 
@@ -88,7 +98,7 @@
 - **考核及格线：** 至少实现 **3 个与选题强相关的核心功能**，项目完成度较高，文档完整。
 - **适合方向：** 有明确兴趣方向、具备自主学习能力、希望挑战复杂项目的同学。
 
-### 项目G：算法刷题
+### 项目 G：算法刷题
 
 <LinkCard title="项目 G：算法刷题" href="/resource/timu/G.html" description="算法竞赛训练题单" icon="mdi:sigma" />
 
