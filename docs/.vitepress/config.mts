@@ -350,6 +350,14 @@ export default defineConfig({
   title: "3D环梦工坊编程竞赛组 - C++/Python算法课程讲义与竞赛训练知识库官网",
   description: '3D环梦工坊编程竞赛组官方知识库，提供C++/Python编程入门教程、算法与数据结构讲义、竞赛指导、Git使用教程、Linux虚拟机安装指南等学习资源。包含NOI/NOIP/CSP等竞赛信息，助你从零基础成长为编程竞赛选手。',
 
+  vite: {
+    build: {
+      // The custom theme bundles KaTeX, Mermaid and multiple interactive widgets.
+      // Raise the warning threshold so production builds stay signal-rich.
+      chunkSizeWarningLimit: 1024
+    }
+  },
+
   // 添加全局 head 标签用于分析追踪
   head: [
     [
