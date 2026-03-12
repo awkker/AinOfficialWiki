@@ -643,6 +643,7 @@ export default defineConfig({
           items: [
             { text: '2026 寒假纳新考核指南与提交规范', link: '/resource/timu/timu' },
             { text: '小米杯考核', link: '/resource/xiaomi-cup-cyberdog' },
+            { text: '小米杯Docker环境搭建教程', link: '/resource/xiaomi-cup-cyberdog-docker' },
             { text : '项目 A', link: '/resource/timu/A' },
             { text : '项目 B', link: '/resource/timu/B' },
             { text : '项目 C', link: '/resource/timu/C' },

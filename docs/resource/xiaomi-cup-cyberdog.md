@@ -66,6 +66,10 @@ https://docs.docker.com/engine/install/ubuntu/
 5. 启动机器狗控制程序
 6. 成功运行仿真并观察机器狗运动
 
+教程位置：
+
+- 可直接参考 [小米杯Docker环境搭建教程](/resource/xiaomi-cup-cyberdog-docker) 完成镜像下载、导入、启动仿真与运行控制程序。
+
 ## 四、环境搭建步骤
 
 ### 下载 Docker 镜像

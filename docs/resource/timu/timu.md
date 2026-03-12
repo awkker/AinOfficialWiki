@@ -30,10 +30,13 @@
 
 <LinkCard title="小米杯考核：四足机器人仿真环境搭建" href="/resource/xiaomi-cup-cyberdog" description="环梦工坊赛前考核与基础环境搭建说明" icon="mdi:robot-industrial-outline" />
 
+<LinkCard title="小米杯Docker环境搭建教程" href="/resource/xiaomi-cup-cyberdog-docker" description="镜像下载、导入、启动仿真与控制程序运行说明" icon="mdi:docker" />
+
 - **赛事状态：** 2026 年小米杯已开启，详情请查看上方章程。
 - **往届成绩：** 环梦工坊成员在 2025 年小米杯中获得 **1 项国家一等奖、2 项国家二等奖**。
 - **参赛支持：** 如计划参赛，组内会提供相应辅导。
 - **参与要求：** 需要先完成 **小米杯考核：四足机器人仿真环境搭建**，或完成下方任意一道寒假考核题，并通过面试。
+- **教程位置：** Docker 镜像的下载、导入与运行步骤见上方教程页。
 
 ### 项目 A：基于 OpenClaw 的 AI 助手部署实践
 
