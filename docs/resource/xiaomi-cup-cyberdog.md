@@ -26,10 +26,17 @@ description: 小米杯考核说明，涵盖 Cyberdog 仿真环境搭建、Gazebo
 
 - **Ubuntu 20.04**
 
-环境部署方式允许以下两种：
+环境部署方式允许以下三种：
 
 - 双系统（Windows + Ubuntu）
 - 虚拟机（VMware / VirtualBox）
+- WSL（Windows Subsystem for Linux）
+
+系统安装可参考以下教程：
+
+<LinkCard title="安装年轻人的第一个 Linux 虚拟机" href="/guides/first-vm-2024" description="适合使用虚拟机或 WSL 准备 Ubuntu 环境" icon="mdi:monitor-dashboard" />
+
+<LinkCard title="从零开始：Ubuntu 24.04 LTS + Win11 双系统安装教程" href="https://hs.cnies.org/archives/dual-boot-ubuntu2404-win11" description="适合需要在本机安装双系统的同学" icon="mdi:laptop" />
 
 ### 2. 软件环境
 
@@ -40,7 +47,7 @@ description: 小米杯考核说明，涵盖 Cyberdog 仿真环境搭建、Gazebo
 
 Docker 安装教程：
 
-https://docs.docker.com/engine/install/ubuntu/
+<LinkCard title="Docker Engine 安装教程（Ubuntu）" href="https://docs.docker.com/engine/install/ubuntu/" description="官方 Docker Engine for Ubuntu 安装文档" icon="mdi:docker" />
 
 ### 3. 推荐硬件配置
 
@@ -68,7 +75,7 @@ https://docs.docker.com/engine/install/ubuntu/
 
 教程位置：
 
-- 可直接参考 [小米杯Docker环境搭建教程](/resource/xiaomi-cup-cyberdog-docker) 完成镜像下载、导入、启动仿真与运行控制程序。
+<LinkCard title="小米杯 Docker 环境搭建教程" href="/resource/xiaomi-cup-cyberdog-docker" description="镜像下载、导入、启动仿真与运行控制程序说明" icon="mdi:docker" />
 
 ## 四、环境搭建步骤
 

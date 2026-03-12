@@ -136,6 +136,13 @@
 
 ## **参考资料**
 
+### Ubuntu 安装
+
+- [安装年轻人的第一个 Linux 虚拟机](/guides/first-vm-2024)
+- [从零开始：Ubuntu 24.04 LTS + Win11 双系统安装教程](https://hs.cnies.org/archives/dual-boot-ubuntu2404-win11)
+
+### 网络与系统命令
+
 [Linux 网络基础与 `ip` 命令](https://blog.csdn.net/qq_35995514/article/details/139486688?ops_request_misc=elastic_search_misc&request_id=e16442592b2f08e7ac04571ca3710faf&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~ElasticSearch~search_v2-1-139486688-null-null.142%5Ev102%5Epc_search_result_base8&utm_term=Linux%20ip%20%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3&spm=1018.2226.3001.4187)
 
 [nmcli 常用命令](https://blog.csdn.net/qq_35995514/article/details/136988861?ops_request_misc=elastic_search_misc&request_id=60dc5e13b0f329dc58284b2a49d5a968&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-136988861-null-null.142%5Ev102%5Epc_search_result_base8&utm_term=nmcli%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4&spm=1018.2226.3001.4187)
