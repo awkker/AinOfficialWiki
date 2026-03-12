@@ -99,7 +99,23 @@ description: 安装 Vmware/HyperV/WSL等虚拟机详细指南
 
 ### 安装 VMware Workstation
 
-[按住Ctrl点击这里（彩色字体是超链接，这是标准打开方法）下载Vmware Workstation](https://ed.qcea.top/ChaIndex/Softwares/Windows/System/VirtualMachine/Vmware/VMware-workstation-full-17.6.1-24319023.exe)或者打开群文件发的安装包
+早在 2024 年底，Vmware 官方就发布了公告，VMware Workstation Pro 对个人用户完全免费，所以后续都不用再到处找许可证密钥了。现在，你可以直接去官网上随意下载、安装和使用这款功能强大的虚拟机软件。
+
+优先阅读下面这篇教程，从官网注册并下载官方免费的 VMware Workstation；如果官网下载较慢，也可以使用网盘下载入口。
+
+<LinkCard
+  title="VMware Workstation Pro 个人免费版下载及安装指南"
+  href="https://www.cnblogs.com/EthanS/p/18211302"
+  description="优先推荐：按教程从官网注册、下载并安装个人免费版 VMware Workstation。"
+  icon="mdi:book-open-page-variant-outline"
+/>
+
+<LinkCard
+  title="VMware Workstation Pro(VM虚拟机) v17.6.4 官方版+激活密钥 - 果核剥壳"
+  href="https://www.ghxi.com/vmware17.html"
+  description="如果官网下载较慢，可在该页面使用网盘下载安装包；仍建议优先选择官方个人免费授权。"
+  icon="mdi:cloud-download-outline"
+/>
 
 一直点下一步就可以
 
