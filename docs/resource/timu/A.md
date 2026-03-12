@@ -1,4 +1,4 @@
-# A 基于OpenClaw的AI助手部署实践
+# 项目 A：基于 OpenClaw 的 AI 助手部署实践
 
 欢迎来到“Agent 时代”！如果说 2023-2025 年是“聊天机器人”的爆发期，那么 2026 年无疑是 **AI Agent（智能体）** 的元年。你可能已经刷到了不少视频：一台闲置的 Mac mini 或 Linux 笔记本，在安装了一个名为 **OpenClaw (原名 Clawdbot)** 的软件后，摇身一变成为了一名不知疲倦的“数字员工”。它不仅能陪你聊天，更能**真正地操作电脑**——自动整理文件、发送邮件、监控服务器，甚至在你睡觉时帮你“搬砖”。
 
@@ -33,6 +33,7 @@ OpenClaw的核心优势在于其轻量级设计和扩展性强，它可以接入
 
 #### AI 助手安装教程
 
+- [【OpenClaw龙虾安装+接入QQ保姆级教程！附上门卸载服务】](https://www.bilibili.com/video/BV1D4wcz6EVV/)
 - [OpenClaw(Clawdbot) 海量全玩法攻略，国内网络使用，本地部署](https://www.bilibili.com/video/BV1kH6nBFEPq/)
 - [再见OpenClaw,memU Bot 接入飞书后,我的摸鱼看起来像加班](https://mp.weixin.qq.com/s/XBibeZVk6M67VVa-EfZnyQ)
 - [5 分钟上手 Nanobot：轻量级 AI 助手完整使用教程](https://zhuanlan.zhihu.com/p/2002810026927093120)
@@ -92,7 +93,7 @@ OpenClaw的核心优势在于其轻量级设计和扩展性强，它可以接入
 ### 任务目标：
 1. 配置定时任务，每天早上8点运行。
 2. 汇总昨日国内外AI相关消息。
-3. 通过飞书或其他渠道发送汇总结果。
+3. 通过飞书（推荐）、QQ、企业微信、Discord（推荐）、Telegram 发送汇总结果。
 4. 优化 AI 新闻获取与处理阶段的提示词，尽量减少幻觉、误引与主观臆测，避免生成内容明显偏离原始新闻。
 
 ### 验证标准：
