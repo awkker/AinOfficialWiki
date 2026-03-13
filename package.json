@@ -35,7 +35,7 @@
     "cf:build:slide:cpp-function-stl": "slidev build slides/lesson2-function-stl.md --base /decks/cpp-function-stl/ --out ../.cloudflare-dist/decks/cpp-function-stl --download false",
     "cf:build:slide:algorithm-intro": "slidev build slides/lesson3-sort-2025.md --base /decks/algorithm-intro/ --out ../.cloudflare-dist/decks/algorithm-intro --download false",
     "cf:build:slides": "bun run cf:build:slide:demo && bun run cf:build:slide:guide-2025 && bun run cf:build:slide:cpp-basics && bun run cf:build:slide:cpp-function-stl && bun run cf:build:slide:algorithm-intro",
-    "cf:build": "bun run cf:build:clean && bun run cf:build:docs && bun run cf:build:slides"
+    "cf:build": "bun install && bun run cf:build:clean && bun run cf:build:docs && bun run cf:build:slides"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
