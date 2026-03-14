@@ -662,6 +662,12 @@ export default defineConfig({
                 { text: 'LaTeX 文档元素', link: '/guides/05-LaTeX-doc' },
                 { text: 'LaTeX 样式设定', link: '/guides/06-LaTeX-style' }
               ]
+            },
+            {
+              text: '求职成长',
+              items: [
+                { text: '大学生简历避坑与正确写法指南', link: '/guides/college-student-resume-guide' }
+              ]
             }
           ]
         }
