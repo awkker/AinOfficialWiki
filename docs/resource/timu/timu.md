@@ -140,12 +140,9 @@
 4. **算法题（项目 G）：**  
    需提交刷题平台 ID 与完成情况证明（截图/链接等），并确保能核验题目完成量与通过率。
 
-5. **个人简历（PDF）：**  
-   可使用及时简历制作并导出 PDF：
+5. **个人简历（Word）：**  
 
-   <LinkCard title="及时简历 (Resume)" href="https://resume.hxcn.space" description="在线制作并导出 PDF 简历" icon="mdi:file-account-outline" />
-
-   提交 PDF 文件或可访问的分享链接均可。
+   加入纳新群915668300，群文件下载简历模板提交。
 
 ### 提交格式要求
 
