@@ -710,6 +710,29 @@ export default defineConfig({
           ]
         },
         {
+          text: '软件资源',
+          items: [
+            {
+              text: 'Adobe',
+              items: [
+                { text: 'Photoshop 2025 安装指南', link: '/resource/photoshop-2025-installation' }
+              ]
+            },
+            {
+              text: '3D 建模',
+              items: [
+                { text: 'Blender 安装教程', link: '/resource/blender-installation' }
+              ]
+            },
+            {
+              text: '科学计算',
+              items: [
+                { text: 'MATLAB 2024b 安装教程', link: '/resource/matlab-2024b-installation' }
+              ]
+            }
+          ]
+        },
+        {
           text: '贡献项目',
           items: [
             {
