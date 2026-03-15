@@ -721,7 +721,8 @@ export default defineConfig({
             {
               text: '3D 建模',
               items: [
-                { text: 'Blender 安装教程', link: '/resource/blender-installation' }
+                { text: 'Blender 安装教程', link: '/resource/blender-installation' },
+                { text: 'Blender 插件安装教程', link: '/resource/blender-addon-installation' }
               ]
             },
             {
