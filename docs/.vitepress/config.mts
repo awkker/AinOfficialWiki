@@ -483,6 +483,9 @@ export default defineConfig({
     siteTitle: '3D环梦工坊编程竞赛组',
     logoLink: '/',
     lastUpdatedText: '最后更新于',
+    sidebarMenuLabel: '菜单',
+    outlineTitle: '目录',
+    returnToTopLabel: '返回顶部',
     nav: [
       { text: '主页', link: '/' },
       { text: '讲义', link: '/handouts/' },

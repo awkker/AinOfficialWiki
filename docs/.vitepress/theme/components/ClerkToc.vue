@@ -74,7 +74,7 @@ const outlineLabel = computed(() => {
     const label = (outline as { label?: string }).label
     if (label) return label
   }
-  return theme.value.outlineTitle ?? 'On this page'
+  return theme.value.outlineTitle ?? '目录'
 })
 
 /** X offset of the SVG wire line based on heading depth */
