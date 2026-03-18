@@ -20,6 +20,8 @@ export interface BreadcrumbRenderItem {
   hiddenItems?: BreadcrumbItem[]
 }
 
+export type BreadcrumbCollapseMode = 'full' | 'tail-2' | 'tail-1' | 'root-current'
+
 interface BuildBreadcrumbTrailOptions {
   routePath: string
   pageTitle: string
@@ -236,17 +238,41 @@ export function buildBreadcrumbTrail({
   return items
 }
 
-export function collapseBreadcrumbItems(items: BreadcrumbItem[]): BreadcrumbRenderItem[] {
-  if (items.length <= 6) {
-    return items.map((item) => ({
-      kind: 'item',
-      ...item
-    }))
+function toRenderItems(items: BreadcrumbItem[]): BreadcrumbRenderItem[] {
+  return items.map((item) => ({
+    kind: 'item',
+    ...item
+  }))
+}
+
+export function collapseBreadcrumbItems(
+  items: BreadcrumbItem[],
+  mode: BreadcrumbCollapseMode = 'full'
+): BreadcrumbRenderItem[] {
+  if (mode === 'full') {
+    return toRenderItems(items)
   }
 
-  const head = items.slice(0, 2)
-  const tail = items.slice(-3)
-  const hiddenItems = items.slice(2, -3)
+  const keepCountByMode: Record<Exclude<BreadcrumbCollapseMode, 'full'>, number> = {
+    'tail-2': 3,
+    'tail-1': 2,
+    'root-current': 1
+  }
+
+  const trailingVisibleCount = keepCountByMode[mode]
+  const minimumVisibleCount = 1 + trailingVisibleCount
+
+  if (items.length <= minimumVisibleCount + 1) {
+    return toRenderItems(items)
+  }
+
+  const head = items.slice(0, 1)
+  const tail = items.slice(-trailingVisibleCount)
+  const hiddenItems = items.slice(1, -trailingVisibleCount)
+
+  if (!hiddenItems.length) {
+    return toRenderItems(items)
+  }
 
   return [
     ...head.map((item) => ({ kind: 'item' as const, ...item })),

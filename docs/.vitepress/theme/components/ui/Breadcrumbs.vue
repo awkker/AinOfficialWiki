@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Popover from './Popover.vue'
-import type { BreadcrumbItem } from './breadcrumbs'
+import type { BreadcrumbCollapseMode, BreadcrumbItem } from './breadcrumbs'
 import { collapseBreadcrumbItems } from './breadcrumbs'
 
 const props = withDefaults(
@@ -15,9 +15,31 @@ const props = withDefaults(
 )
 
 const currentLabelRef = ref<HTMLElement | null>(null)
+const navRef = ref<HTMLElement | null>(null)
+const containerWidth = ref(0)
 const isCurrentOverflowing = ref(false)
+const isPortrait = ref(false)
 
-const renderItems = computed(() => collapseBreadcrumbItems(props.items))
+let resizeObserver: ResizeObserver | null = null
+let orientationQuery: MediaQueryList | null = null
+
+const collapseMode = computed<BreadcrumbCollapseMode>(() => {
+  if (props.items.length <= 4) {
+    return 'full'
+  }
+
+  if (isPortrait.value || containerWidth.value < 540) {
+    return 'root-current'
+  }
+
+  if (containerWidth.value < 720) {
+    return 'tail-1'
+  }
+
+  return 'tail-2'
+})
+
+const renderItems = computed(() => collapseBreadcrumbItems(props.items, collapseMode.value))
 const currentItem = computed(() => [...props.items].reverse().find((item) => item.current) ?? props.items.at(-1))
 
 function setCurrentLabelRef(element: Element | null) {
@@ -34,8 +56,20 @@ function updateCurrentOverflow() {
   isCurrentOverflowing.value = element.scrollWidth > element.clientWidth + 1
 }
 
+function updateOrientation() {
+  if (typeof window === 'undefined') return
+
+  isPortrait.value = orientationQuery?.matches ?? window.innerHeight > window.innerWidth
+}
+
+function updateLayoutState() {
+  updateOrientation()
+  containerWidth.value = navRef.value?.clientWidth ?? 0
+  void nextTick().then(updateCurrentOverflow)
+}
+
 watch(
-  () => props.items,
+  () => [props.items, renderItems.value],
   () => {
     void nextTick().then(updateCurrentOverflow)
   },
@@ -43,19 +77,46 @@ watch(
 )
 
 onMounted(() => {
-  updateCurrentOverflow()
-  window.addEventListener('resize', updateCurrentOverflow, { passive: true })
+  if (typeof window === 'undefined') return
+
+  orientationQuery = window.matchMedia('(orientation: portrait)')
+  updateLayoutState()
+
+  if (typeof ResizeObserver !== 'undefined' && navRef.value) {
+    resizeObserver = new ResizeObserver(() => {
+      updateLayoutState()
+    })
+    resizeObserver.observe(navRef.value)
+  }
+
+  window.addEventListener('resize', updateLayoutState, { passive: true })
+
+  if (typeof orientationQuery.addEventListener === 'function') {
+    orientationQuery.addEventListener('change', updateLayoutState)
+  } else if (typeof orientationQuery.addListener === 'function') {
+    orientationQuery.addListener(updateLayoutState)
+  }
 })
 
 onBeforeUnmount(() => {
+  resizeObserver?.disconnect()
+
   if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', updateCurrentOverflow)
+    window.removeEventListener('resize', updateLayoutState)
+  }
+
+  if (orientationQuery) {
+    if (typeof orientationQuery.removeEventListener === 'function') {
+      orientationQuery.removeEventListener('change', updateLayoutState)
+    } else if (typeof orientationQuery.removeListener === 'function') {
+      orientationQuery.removeListener(updateLayoutState)
+    }
   }
 })
 </script>
 
 <template>
-  <nav v-if="items.length" class="vp-pro-breadcrumbs" aria-label="Breadcrumbs">
+  <nav v-if="items.length" ref="navRef" class="vp-pro-breadcrumbs" aria-label="Breadcrumbs">
     <ol class="vp-pro-breadcrumbs__list">
       <li
         v-for="(item, index) in renderItems"
@@ -82,12 +143,14 @@ onBeforeUnmount(() => {
 
         <template v-else>
           <Popover
-            v-if="item.current && currentItem?.text === item.text && isCurrentOverflowing"
+            v-if="item.current && currentItem?.key === item.key"
             trigger="hover"
             placement="bottom"
             :offset="0"
             with-arrow
+            :disabled="!isCurrentOverflowing"
             :content="currentItem.text"
+            trigger-class="vp-pro-breadcrumbs__current-trigger"
           >
             <template #trigger>
               <span
@@ -100,7 +163,7 @@ onBeforeUnmount(() => {
           </Popover>
 
           <a
-            v-else-if="item.href && !item.current"
+            v-else-if="item.href"
             class="vp-pro-breadcrumbs__link"
             :href="item.href"
           >
