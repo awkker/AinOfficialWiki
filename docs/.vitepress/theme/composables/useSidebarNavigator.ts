@@ -6,7 +6,6 @@ import {
   normalizeSidebarTree
 } from '../components/sidebar/sidebar-normalize'
 import { resolveBrowserStack, resolveExpandedKeys, type TreeExpansionMode } from './sidebar-state'
-import { resolveInitialExpansionMode, resolveInitialSidebarViewMode } from './sidebar-preferences'
 
 export type SidebarViewMode = 'tree' | 'browser'
 
@@ -34,7 +33,7 @@ export function useSidebarNavigator() {
 
   const viewMode = ref<SidebarViewMode>('tree')
   const expandedKeys = ref<string[]>([])
-  const expansionMode = ref<TreeExpansionMode>('all')
+  const expansionMode = ref<TreeExpansionMode>('auto')
 
   const nodes = computed(() => normalizeSidebarTree((theme.value.sidebar ?? {}) as any, route.path))
   const browserStack = ref(buildBrowserStack(nodes.value, route.path))
@@ -45,8 +44,15 @@ export function useSidebarNavigator() {
   }
 
   if (typeof window !== 'undefined') {
-    viewMode.value = resolveInitialSidebarViewMode(window.localStorage.getItem(STORAGE_MODE_KEY))
-    expansionMode.value = resolveInitialExpansionMode(window.localStorage.getItem(STORAGE_EXPANSION_MODE_KEY))
+    const storedMode = window.localStorage.getItem(STORAGE_MODE_KEY)
+    if (storedMode === 'tree' || storedMode === 'browser') {
+      viewMode.value = storedMode
+    }
+
+    const storedExpansionMode = window.localStorage.getItem(STORAGE_EXPANSION_MODE_KEY)
+    if (storedExpansionMode === 'auto' || storedExpansionMode === 'all') {
+      expansionMode.value = storedExpansionMode
+    }
 
     expandedKeys.value = readJsonArray(STORAGE_EXPANDED_KEY)
     const storedBrowserKeys = readJsonArray(STORAGE_BROWSER_STACK_KEY)
