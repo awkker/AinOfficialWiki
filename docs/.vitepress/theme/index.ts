@@ -35,6 +35,7 @@ import Breadcrumbs from './components/ui/Breadcrumbs.vue'
 import DocOverview from './components/ui/DocOverview.vue'
 import DocOverviewGroup from './components/ui/DocOverviewGroup.vue'
 import DocOverviewCard from './components/ui/DocOverviewCard.vue'
+import { computeNavMenuIndicatorLayout } from './components/nav-menu-indicator-layout'
 import { setupCopyInteractions, syncInlineCodeCopyTargets } from './copy-interactions'
 import { prepareMarkdownCodeBlocks, syncMarkdownCodeLanguageLabels } from './markdown-code-labels'
 import { prepareMarkdownTables } from './markdown-tables'
@@ -48,7 +49,99 @@ export default {
   setup() {
     const route = useRoute()
     let rafId: number | null = null
+    let navMenuIndicatorRafId: number | null = null
     let cleanupCopyInteractions: (() => void) | null = null
+    let navMenuResizeObserver: ResizeObserver | null = null
+    let navMenuMutationObserver: MutationObserver | null = null
+    let observedNavMenu: HTMLElement | null = null
+
+    function findNavMenu(): HTMLElement | null {
+      if (typeof document === 'undefined') return null
+      return document.querySelector('.VPNavBar .VPNavBarMenu.menu') as HTMLElement | null
+    }
+
+    function resetNavMenuIndicator(menu = findNavMenu()) {
+      if (!menu) return
+
+      menu.style.removeProperty('--vp-pro-nav-indicator-width')
+      menu.style.removeProperty('--vp-pro-nav-indicator-transform')
+      menu.style.setProperty('--vp-pro-nav-indicator-opacity', '0')
+    }
+
+    function cleanupNavMenuObservers() {
+      navMenuResizeObserver?.disconnect()
+      navMenuResizeObserver = null
+      navMenuMutationObserver?.disconnect()
+      navMenuMutationObserver = null
+      observedNavMenu = null
+    }
+
+    function observeNavMenu(menu: HTMLElement) {
+      if (observedNavMenu === menu || typeof window === 'undefined') return
+
+      cleanupNavMenuObservers()
+      observedNavMenu = menu
+
+      if (typeof ResizeObserver !== 'undefined') {
+        navMenuResizeObserver = new ResizeObserver(() => {
+          scheduleNavMenuIndicatorSync()
+        })
+        navMenuResizeObserver.observe(menu)
+      }
+
+      if (typeof MutationObserver !== 'undefined') {
+        navMenuMutationObserver = new MutationObserver(() => {
+          scheduleNavMenuIndicatorSync()
+        })
+        navMenuMutationObserver.observe(menu, {
+          subtree: true,
+          childList: true,
+          attributes: true,
+          attributeFilter: ['class', 'aria-current']
+        })
+      }
+    }
+
+    function syncNavMenuIndicator() {
+      const menu = findNavMenu()
+
+      if (!menu) {
+        cleanupNavMenuObservers()
+        return
+      }
+
+      observeNavMenu(menu)
+
+      const activeLink = menu.querySelector('.VPNavBarMenuLink.active') as HTMLElement | null
+
+      if (!activeLink) {
+        resetNavMenuIndicator(menu)
+        return
+      }
+
+      const layout = computeNavMenuIndicatorLayout(
+        menu.getBoundingClientRect().left,
+        activeLink.getBoundingClientRect().left,
+        activeLink.getBoundingClientRect().width
+      )
+
+      menu.style.setProperty('--vp-pro-nav-indicator-width', layout.width)
+      menu.style.setProperty('--vp-pro-nav-indicator-transform', layout.transform)
+      menu.style.setProperty('--vp-pro-nav-indicator-opacity', '1')
+    }
+
+    function scheduleNavMenuIndicatorSync() {
+      if (typeof window === 'undefined') return
+
+      if (navMenuIndicatorRafId != null) {
+        window.cancelAnimationFrame(navMenuIndicatorRafId)
+      }
+
+      navMenuIndicatorRafId = window.requestAnimationFrame(() => {
+        syncNavMenuIndicator()
+        navMenuIndicatorRafId = null
+      })
+    }
 
     function scheduleContentEnhance() {
       if (typeof window === 'undefined') return
@@ -68,9 +161,16 @@ export default {
 
     onMounted(() => {
       scheduleContentEnhance()
+      scheduleNavMenuIndicatorSync()
       cleanupCopyInteractions = setupCopyInteractions()
       window.addEventListener('resize', scheduleContentEnhance, { passive: true })
       window.addEventListener('orientationchange', scheduleContentEnhance)
+      window.addEventListener('resize', scheduleNavMenuIndicatorSync, { passive: true })
+      window.addEventListener('orientationchange', scheduleNavMenuIndicatorSync)
+
+      void document.fonts?.ready.then(() => {
+        scheduleNavMenuIndicatorSync()
+      })
     })
 
     watch(
@@ -78,6 +178,7 @@ export default {
       () => {
         void nextTick().then(() => {
           scheduleContentEnhance()
+          scheduleNavMenuIndicatorSync()
         })
       }
     )
@@ -87,11 +188,18 @@ export default {
 
       window.removeEventListener('resize', scheduleContentEnhance)
       window.removeEventListener('orientationchange', scheduleContentEnhance)
+      window.removeEventListener('resize', scheduleNavMenuIndicatorSync)
+      window.removeEventListener('orientationchange', scheduleNavMenuIndicatorSync)
 
       if (rafId != null) {
         window.cancelAnimationFrame(rafId)
       }
 
+      if (navMenuIndicatorRafId != null) {
+        window.cancelAnimationFrame(navMenuIndicatorRafId)
+      }
+
+      cleanupNavMenuObservers()
       cleanupCopyInteractions?.()
       cleanupCopyInteractions = null
     })
