@@ -184,7 +184,6 @@ h4,
     inset: 0;
     display: flex;
     align-items: center;
-    pointer-events: none;
     opacity: 0;
     transform: translate3d(0, 8px, 0);
     transition:
@@ -193,10 +192,14 @@ h4,
     z-index: 1;
   }
 
+  .VPNavBar:not(.vp-pro-nav-breadcrumb-active) .vp-pro-nav-breadcrumb-dock,
+  .VPNavBar:not(.vp-pro-nav-breadcrumb-active) .vp-pro-nav-breadcrumb-dock * {
+    pointer-events: none !important;
+  }
+
   .vp-pro-nav-breadcrumb-dock__inner {
     min-width: 0;
     max-width: 100%;
-    pointer-events: auto;
   }
 
   .vp-pro-nav-breadcrumb-dock__inner .vp-pro-breadcrumbs {
@@ -225,6 +228,11 @@ h4,
   .VPNavBar.vp-pro-nav-breadcrumb-active .vp-pro-nav-breadcrumb-dock {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+
+  .VPNavBar.vp-pro-nav-breadcrumb-active .vp-pro-nav-breadcrumb-dock,
+  .VPNavBar.vp-pro-nav-breadcrumb-active .vp-pro-nav-breadcrumb-dock * {
+    pointer-events: auto;
   }
 
   .VPNavBar.vp-pro-nav-breadcrumb-active .VPNavBarMenu.menu {
