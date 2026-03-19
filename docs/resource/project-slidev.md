@@ -17,16 +17,16 @@ outline: deep
     <DocOverviewCard title="延伸阅读" href="#延伸阅读" description="进一步理解 Cloudflare Pages 联合部署方案。" icon="mdi:book-open-page-variant-outline" variant="category" />
   </DocOverviewGroup>
 
-  <DocOverviewGroup id="主题与样式" title="主题与样式" description="先建立“源码目录”和“视觉复用”的整体概念。">
+  <DocOverviewGroup title="主题与样式" description="先建立“源码目录”和“视觉复用”的整体概念。">
     <DocOverviewCard title="项目主题使用" href="/resource/project-slidev/theme" description="了解本仓库的本地 Slidev 主题目录、主题文件职责，以及如何在 deck 中启用。" icon="mdi:palette-swatch-outline" variant="article" badge="先读" />
   </DocOverviewGroup>
 
-  <DocOverviewGroup id="访问与嵌入" title="访问与嵌入" description="再区分开发地址、文档页地址和生产环境下的独立 deck 地址。">
+  <DocOverviewGroup title="访问与嵌入" description="再区分开发地址、文档页地址和生产环境下的独立 deck 地址。">
     <DocOverviewCard title="Slidev 独立访问链接" href="/resource/project-slidev/standalone-access" description="分清开发地址、文档页地址和生产环境下的 /decks/专题名/ 独立访问链接。" icon="mdi:open-in-new" variant="article" badge="核心" />
     <DocOverviewCard title="嵌入到文档中" href="/resource/project-slidev/embed-in-docs" description="学习如何在 docs/slides 页面中通过 SlideEmbed 组件嵌入 deck。" icon="mdi:application-braces-outline" variant="article" />
   </DocOverviewGroup>
 
-  <DocOverviewGroup id="延伸阅读" title="延伸阅读" description="这篇外部文章可以帮助你理解为什么本仓库把文档站和 deck 产物合并到同一输出目录。">
+  <DocOverviewGroup title="延伸阅读" description="这篇外部文章可以帮助你理解为什么本仓库把文档站和 deck 产物合并到同一输出目录。">
     <DocOverviewCard title="Cloudflare Pages 部署延伸阅读" href="https://hs.cnies.org/archives/vitepress-slidev-intergration-on-cloudflare" description="阅读 VitePress + Slidev 单 Pages 方案，理解 /decks/ 与文档站联合部署的整体结构。" icon="mdi:cloud-outline" variant="article" badge="外部文章" />
   </DocOverviewGroup>
 

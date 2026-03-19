@@ -5,15 +5,15 @@ import {
   enterBrowserPage,
   normalizeSidebarTree
 } from '../components/sidebar/sidebar-normalize'
-import { resolveInitialExpansionMode, resolveInitialSidebarViewMode } from './sidebar-preferences'
+import {
+  buildSidebarStorageKey,
+  resolveInitialExpansionMode,
+  resolveInitialSidebarViewMode,
+  resolveSidebarStorageScope
+} from './sidebar-preferences'
 import { resetBrowserStackToRoot, resolveBrowserStack, resolveExpandedKeys, type TreeExpansionMode } from './sidebar-state'
 
 export type SidebarViewMode = 'tree' | 'browser'
-
-const STORAGE_MODE_KEY = 'vp-pro-sidebar-view-mode'
-const STORAGE_EXPANDED_KEY = 'vp-pro-sidebar-expanded-keys'
-const STORAGE_EXPANSION_MODE_KEY = 'vp-pro-sidebar-expansion-mode'
-const STORAGE_BROWSER_STACK_KEY = 'vp-pro-sidebar-browser-stack'
 
 function readJsonArray(key: string): string[] {
   if (typeof window === 'undefined') return []
@@ -37,6 +37,7 @@ export function useSidebarNavigator() {
   const expansionMode = ref<TreeExpansionMode>('all')
 
   const nodes = computed(() => normalizeSidebarTree((theme.value.sidebar ?? {}) as any, route.path))
+  const storageScope = computed(() => resolveSidebarStorageScope(theme.value.sidebar ?? {}, route.path))
   const browserStack = ref(buildBrowserStack(nodes.value, route.path))
 
   function syncRouteState() {
@@ -44,38 +45,59 @@ export function useSidebarNavigator() {
     browserStack.value = resolveBrowserStack(nodes.value, route.path, browserStack.value)
   }
 
-  if (typeof window !== 'undefined') {
-    viewMode.value = resolveInitialSidebarViewMode(window.localStorage.getItem(STORAGE_MODE_KEY))
-    expansionMode.value = resolveInitialExpansionMode(window.localStorage.getItem(STORAGE_EXPANSION_MODE_KEY))
-
-    expandedKeys.value = readJsonArray(STORAGE_EXPANDED_KEY)
-    const storedBrowserKeys = readJsonArray(STORAGE_BROWSER_STACK_KEY)
-    if (storedBrowserKeys.length) {
-      const routeStack = buildBrowserStack(nodes.value, route.path)
-      browserStack.value = resolveBrowserStack(nodes.value, route.path, routeStack.filter((page) => storedBrowserKeys.includes(page.key)))
+  function loadStoredState(scope: string) {
+    if (typeof window === 'undefined') {
+      syncRouteState()
+      return
     }
+
+    viewMode.value = resolveInitialSidebarViewMode(
+      window.localStorage.getItem(buildSidebarStorageKey(scope, 'view-mode'))
+    )
+    expansionMode.value = resolveInitialExpansionMode(
+      window.localStorage.getItem(buildSidebarStorageKey(scope, 'expansion-mode'))
+    )
+    expandedKeys.value = readJsonArray(buildSidebarStorageKey(scope, 'expanded-keys'))
+
+    const routeStack = buildBrowserStack(nodes.value, route.path)
+    const storedBrowserKeys = readJsonArray(buildSidebarStorageKey(scope, 'browser-stack'))
+    if (storedBrowserKeys.length) {
+      browserStack.value = resolveBrowserStack(
+        nodes.value,
+        route.path,
+        routeStack.filter((page) => storedBrowserKeys.includes(page.key))
+      )
+    } else {
+      browserStack.value = routeStack
+    }
+
+    syncRouteState()
   }
 
-  watch([nodes, () => route.path], syncRouteState, { immediate: true })
+  watch(storageScope, loadStoredState, { immediate: true })
+  watch([nodes, () => route.path], syncRouteState)
 
   watch(viewMode, (value) => {
     if (typeof window === 'undefined') return
-    window.localStorage.setItem(STORAGE_MODE_KEY, value)
+    window.localStorage.setItem(buildSidebarStorageKey(storageScope.value, 'view-mode'), value)
   })
 
   watch(expansionMode, (value) => {
     if (typeof window === 'undefined') return
-    window.localStorage.setItem(STORAGE_EXPANSION_MODE_KEY, value)
+    window.localStorage.setItem(buildSidebarStorageKey(storageScope.value, 'expansion-mode'), value)
   })
 
   watch(expandedKeys, (value) => {
     if (typeof window === 'undefined') return
-    window.localStorage.setItem(STORAGE_EXPANDED_KEY, JSON.stringify(value))
+    window.localStorage.setItem(buildSidebarStorageKey(storageScope.value, 'expanded-keys'), JSON.stringify(value))
   }, { deep: true })
 
   watch(browserStack, (value) => {
     if (typeof window === 'undefined') return
-    window.localStorage.setItem(STORAGE_BROWSER_STACK_KEY, JSON.stringify(value.map((page) => page.key)))
+    window.localStorage.setItem(
+      buildSidebarStorageKey(storageScope.value, 'browser-stack'),
+      JSON.stringify(value.map((page) => page.key))
+    )
   })
 
   function setViewMode(mode: SidebarViewMode) {

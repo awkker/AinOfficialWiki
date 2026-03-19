@@ -32,6 +32,7 @@ interface BuildBreadcrumbTrailOptions {
 interface SidebarTrailNode {
   text: string
   link?: string
+  overviewLink?: string
 }
 
 interface ResolvedSidebarSource {
@@ -55,11 +56,18 @@ function ensureOverviewPath(path: string): string {
   return normalized === '/' ? '/' : `${normalized}/`
 }
 
-function normalizeAnchor(text: string): string {
+function findOverviewLink(items?: SidebarItemLike[]): string | undefined {
+  const overviewItem = items?.find((item) => item.text && isOverviewLabel(item.text) && item.link)
+  return overviewItem?.link
+}
+
+export function toDocAnchorId(text: string): string {
   return text
     .trim()
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/[`~!@#$%^&*()+=\[\]{}\\|;:'",.<>/?]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
     .replace(/^-+|-+$/g, '')
 }
 
@@ -87,7 +95,7 @@ function formatBreadcrumbText(text: string): string {
 }
 
 function toOverviewAnchorHref(overviewPath: string, text: string): string | undefined {
-  const anchor = normalizeAnchor(text)
+  const anchor = toDocAnchorId(text)
   if (!anchor) return undefined
   return `${overviewPath}#${anchor}`
 }
@@ -157,7 +165,8 @@ function findSidebarTrail(
           ...trail,
           {
             text: item.text.trim(),
-            link: item.link ? normalizeDocPath(item.link) : undefined
+            link: item.link ? normalizeDocPath(item.link) : undefined,
+            overviewLink: findOverviewLink(item.items)
           }
         ]
       : [...trail]
@@ -187,6 +196,7 @@ export function buildBreadcrumbTrail({
   const overviewPath = ensureOverviewPath(basePath)
   const rawTrail = findSidebarTrail(sidebarItems, normalizedRoute) ?? []
   const filteredTrail = rawTrail.filter((item) => item.text && !isOverviewLabel(item.text))
+  let currentOverviewPath = overviewPath
 
   const items: BreadcrumbItem[] = [
     {
@@ -198,16 +208,21 @@ export function buildBreadcrumbTrail({
 
   for (const item of filteredTrail) {
     const normalizedLink = item.link ? normalizeDocPath(item.link) : ''
+    const nestedOverviewPath = item.overviewLink ? ensureOverviewPath(item.overviewLink) : undefined
     const href =
       normalizedLink && normalizedLink !== normalizedRoute
         ? item.link
-        : toOverviewAnchorHref(overviewPath, item.text)
+        : nestedOverviewPath ?? toOverviewAnchorHref(currentOverviewPath, item.text)
 
     items.push({
       key: `${items.length}-${item.text}`,
       text: formatBreadcrumbText(item.text),
       href
     })
+
+    if (nestedOverviewPath) {
+      currentOverviewPath = nestedOverviewPath
+    }
   }
 
   const pageLooksLikeOverview = isOverviewLabel(pageTitle)

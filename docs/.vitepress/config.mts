@@ -696,7 +696,7 @@ export default defineConfig({
           ]
         },
         {
-          text: '2026 寒假纳新',
+          text: '2026寒假纳新',
           items: [
             { text: '2026 寒假纳新考核指南与提交规范', link: '/resource/timu/timu' },
             { text: '小米杯考核', link: '/resource/xiaomi-cup-cyberdog' },
@@ -714,25 +714,10 @@ export default defineConfig({
         {
           text: '软件资源',
           items: [
-            {
-              text: 'Adobe',
-              items: [
-                { text: 'Photoshop 2025 安装指南', link: '/resource/photoshop-2025-installation' }
-              ]
-            },
-            {
-              text: '3D 建模',
-              items: [
-                { text: 'Blender 安装教程', link: '/resource/blender-installation' },
-                { text: 'Blender 插件安装教程', link: '/resource/blender-addon-installation' }
-              ]
-            },
-            {
-              text: '科学计算',
-              items: [
-                { text: 'MATLAB 2024b 安装教程', link: '/resource/matlab-2024b-installation' }
-              ]
-            }
+            { text: 'Photoshop 2025 安装指南', link: '/resource/photoshop-2025-installation' },
+            { text: 'Blender 安装教程', link: '/resource/blender-installation' },
+            { text: 'Blender 插件安装教程', link: '/resource/blender-addon-installation' },
+            { text: 'MATLAB 2024b 安装教程', link: '/resource/matlab-2024b-installation' }
           ]
         },
         {
@@ -742,32 +727,57 @@ export default defineConfig({
               text: 'Slidev',
               items: [
                 { text: '总览', link: '/resource/project-slidev' },
-                { text: '项目主题使用', link: '/resource/project-slidev/theme' },
-                { text: '独立访问链接', link: '/resource/project-slidev/standalone-access' },
-                { text: '嵌入到文档中', link: '/resource/project-slidev/embed-in-docs' }
+                {
+                  text: '主题与样式',
+                  items: [
+                    { text: '项目主题使用', link: '/resource/project-slidev/theme' }
+                  ]
+                },
+                {
+                  text: '访问与嵌入',
+                  items: [
+                    { text: '独立访问链接', link: '/resource/project-slidev/standalone-access' },
+                    { text: '嵌入到文档中', link: '/resource/project-slidev/embed-in-docs' }
+                  ]
+                }
               ]
             },
             {
               text: '项目组件',
               items: [
                 { text: '总览', link: '/resource/project-components' },
-                { text: 'Accordion', link: '/resource/project-components/accordion' },
-                { text: 'Asides', link: '/resource/project-components/asides' },
-                { text: 'Badges', link: '/resource/project-components/badges' },
-                { text: 'Breadcrumbs', link: '/resource/project-components/breadcrumbs' },
-                { text: 'Checkbox', link: '/resource/project-components/checkbox' },
-                { text: 'Checkbox Group', link: '/resource/project-components/checkbox-group' },
-                { text: 'Code', link: '/resource/project-components/code' },
-                { text: 'File Tree', link: '/resource/project-components/file-tree' },
-                { text: 'Kbd', link: '/resource/project-components/kbd' },
-                { text: 'Link Buttons', link: '/resource/project-components/link-buttons' },
-                { text: 'Link Cards', link: '/resource/project-components/link-cards' },
-                { text: 'Popover', link: '/resource/project-components/popover' },
-                { text: 'Progress', link: '/resource/project-components/progress' },
-                { text: 'Steps', link: '/resource/project-components/steps' },
-                { text: 'Table', link: '/resource/project-components/table' },
-                { text: 'Tabs', link: '/resource/project-components/tabs' },
-                { text: 'Toast', link: '/resource/project-components/toast' }
+                {
+                  text: '布局与导航',
+                  items: [
+                    { text: 'Accordion', link: '/resource/project-components/accordion' },
+                    { text: 'Tabs', link: '/resource/project-components/tabs' },
+                    { text: 'Breadcrumbs', link: '/resource/project-components/breadcrumbs' },
+                    { text: 'Link Buttons', link: '/resource/project-components/link-buttons' },
+                    { text: 'Link Cards', link: '/resource/project-components/link-cards' },
+                    { text: 'Steps', link: '/resource/project-components/steps' }
+                  ]
+                },
+                {
+                  text: '内容展示',
+                  items: [
+                    { text: 'Asides', link: '/resource/project-components/asides' },
+                    { text: 'Badges', link: '/resource/project-components/badges' },
+                    { text: 'Code', link: '/resource/project-components/code' },
+                    { text: 'File Tree', link: '/resource/project-components/file-tree' },
+                    { text: 'Kbd', link: '/resource/project-components/kbd' },
+                    { text: 'Progress', link: '/resource/project-components/progress' },
+                    { text: 'Table', link: '/resource/project-components/table' }
+                  ]
+                },
+                {
+                  text: '表单与反馈',
+                  items: [
+                    { text: 'Checkbox', link: '/resource/project-components/checkbox' },
+                    { text: 'Checkbox Group', link: '/resource/project-components/checkbox-group' },
+                    { text: 'Popover', link: '/resource/project-components/popover' },
+                    { text: 'Toast', link: '/resource/project-components/toast' }
+                  ]
+                }
               ]
             }
           ]
