@@ -97,7 +97,9 @@ cyberdog_race.tar
 
 镜像大小约 **10GB**。
 
-[示例下载地址](https://pan.educg.net/#/s/OPJxi7)
+<LinkCard title="cyberdog_sim 镜像下载地址 (123网盘)" href="https://www.123865.com/s/GoDdjv-E15UA?pwd=dWkW#" description="镜像包约 10.9GB，请在 Ubuntu 环境中下载并导入，提取码: dWkW" icon="mdi:download-box-outline" />
+
+<LinkCard title="cyberdog_sim 镜像下载地址 (百度网盘)" href="https://pan.baidu.com/s/1FHPks2QdmCywGyVa1Et5TQ?pwd=zxwg" description="镜像包约 10.9GB，请在 Ubuntu 环境中下载并导入，提取码: zxwg" icon="mdi:download-box-outline" />
 
 下载完成后，将文件放在 Ubuntu 系统目录中。
 
