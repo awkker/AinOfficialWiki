@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
+import { resolveLocalIconData } from './local-icons'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     icon: string
     width?: number | string
@@ -15,15 +17,19 @@ withDefaults(
     inline: true
   }
 )
+
+const resolvedIcon = computed(() => resolveLocalIconData(props.icon))
 </script>
 
 <template>
   <Icon
+    v-if="resolvedIcon"
     class="vp-pro-icon"
-    :icon="icon"
-    :width="width"
-    :height="height"
-    :color="color"
-    :inline="inline"
+    :icon="resolvedIcon"
+    :width="props.width"
+    :height="props.height"
+    :color="props.color"
+    :inline="props.inline"
   />
+  <span v-else class="vp-pro-icon" aria-hidden="true">•</span>
 </template>

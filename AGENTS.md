@@ -97,6 +97,15 @@ npm run cf:build
 - VitePress 配置或主题修改应放在 `docs/.vitepress/` 下。
 - `docs/public/` 中的文件在源码中应使用根绝对路径引用（例如 `/favicon.ico`）。
 
+### Icon 本地化规则
+
+- 项目中的 icon 禁止在运行时从 Iconify API、CDN 或其他第三方服务远程拉取。
+- 新增 icon 时，必须优先通过本地依赖方式接入：
+  - 为所需图标集添加明确的 `@iconify-json/*` 依赖，不要依赖“某个上游包刚好间接带上”的传递依赖。
+  - 运行 `bun run icons:generate` 更新 `docs/.vitepress/theme/generated/local-icons.ts`，确保只打包项目实际使用到的图标子集。
+- 业务代码中的图标应继续通过现有 `BaseIcon` / 本地图标工具链使用，不要绕过本地生成层直接写会触发远程加载的调用方式。
+- 如果某个图标集没有合适的本地依赖，必须改为仓库内静态资源或替换为已有本地图标；不要保留运行时远程兜底。
+
 ### 幻灯片嵌入规范
 
 - 在 `docs/slides/*.md` 中，优先使用 `SlideEmbed` 组件，不要直接写原始 `iframe`。

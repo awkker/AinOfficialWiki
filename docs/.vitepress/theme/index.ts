@@ -36,7 +36,6 @@ import Breadcrumbs from './components/ui/Breadcrumbs.vue'
 import DocOverview from './components/ui/DocOverview.vue'
 import DocOverviewGroup from './components/ui/DocOverviewGroup.vue'
 import DocOverviewCard from './components/ui/DocOverviewCard.vue'
-import { ensureLocalIconCollections } from './components/ui/provider-icons'
 import { computeNavMenuIndicatorLayout } from './components/nav-menu-indicator-layout'
 import { setupCopyInteractions, syncInlineCodeCopyTargets } from './copy-interactions'
 import { prepareMarkdownCodeBlocks, syncMarkdownCodeLanguageLabels } from './markdown-code-labels'
@@ -49,8 +48,6 @@ import DocNavBreadcrumbDock from './components/DocNavBreadcrumbDock.vue'
 export default {
   extends: DefaultTheme,
   setup() {
-    ensureLocalIconCollections()
-
     const route = useRoute()
     let rafId: number | null = null
     let navMenuIndicatorRafId: number | null = null

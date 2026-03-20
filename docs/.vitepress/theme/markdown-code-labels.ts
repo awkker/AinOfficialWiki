@@ -1,31 +1,17 @@
-import { buildIcon, loadIcon } from '@iconify/vue'
 import { resolveCodeLanguageMeta } from '../shared/code-language-meta'
 import { resolveLanguageLabel, resolveLanguageShortLabel } from '../shared/language-labels'
 import { resolveLanguageAccent, resolveLanguageIcon } from './components/ui/icon-map'
+import { buildLocalIconMarkup } from './components/ui/local-icons'
 
-const iconMarkupCache = new Map<string, Promise<string>>()
+const iconMarkupCache = new Map<string, string>()
 
-function getIconMarkup(icon: string): Promise<string> {
+function getIconMarkup(icon: string): string {
   const cached = iconMarkupCache.get(icon)
   if (cached) return cached
 
-  const task = loadIcon(icon)
-    .then((iconData) => {
-      const built = buildIcon(iconData, {
-        width: 16,
-        height: 16
-      })
-
-      const attributeString = Object.entries(built.attributes)
-        .map(([key, value]) => `${key}="${String(value)}"`)
-        .join(' ')
-
-      return `<svg xmlns="http://www.w3.org/2000/svg" ${attributeString} aria-hidden="true">${built.body}</svg>`
-    })
-    .catch(() => '')
-
-  iconMarkupCache.set(icon, task)
-  return task
+  const markup = buildLocalIconMarkup(icon, 16, 16)
+  iconMarkupCache.set(icon, markup)
+  return markup
 }
 
 function readLanguageFromClassName(className: string): string {
@@ -95,12 +81,11 @@ function applyCodePromptState(block: HTMLElement, promptSymbol: string | null): 
   delete block.dataset.codePrompt
 }
 
-async function syncLanguageIcon(iconNode: HTMLElement, language: string): Promise<void> {
+function syncLanguageIcon(iconNode: HTMLElement, language: string): void {
   const icon = resolveLanguageIcon(language)
   iconNode.dataset.icon = icon
 
-  const markup = await getIconMarkup(icon)
-  if (iconNode.dataset.icon !== icon) return
+  const markup = getIconMarkup(icon)
 
   if (!markup) {
     iconNode.textContent = '•'
@@ -147,7 +132,7 @@ function ensureMarkdownCodeHeader(block: HTMLElement): void {
 
   const iconNode = createLanguageIconNode()
   lead.appendChild(iconNode)
-  void syncLanguageIcon(iconNode, languageMeta.language)
+  syncLanguageIcon(iconNode, languageMeta.language)
 
   langNode.classList.add('vp-pro-code__lang', 'vp-pro-md-code__lang')
   lead.appendChild(langNode)
