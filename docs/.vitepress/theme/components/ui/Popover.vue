@@ -206,7 +206,6 @@ function handleTriggerClick() {
 
   toggleOpen()
 }
-
 function handleTriggerMouseEnter() {
   if (!supportsHoverTrigger.value) return
   clearHoverTimer()

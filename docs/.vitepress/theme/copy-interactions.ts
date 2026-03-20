@@ -1,5 +1,6 @@
 import { addToast } from './components/ui/toast'
 import { tableToHtml, tableToMarkdown, tableToStyledHtml } from './markdown-tables'
+import { shouldRegisterInlineCopyTarget } from './inline-copy'
 import type { TableCopyFormat } from '../shared/table-directives'
 import { writeClipboard } from './utils/clipboard'
 
@@ -16,8 +17,13 @@ function resolveInlineCodeTarget(target: EventTarget | null): HTMLElement | null
 
   const code = target.closest('code')
   if (!(code instanceof HTMLElement)) return null
+  if (!shouldRegisterInlineCopyTarget({
+    isInsidePre: Boolean(code.closest('pre')),
+    inlineCopyMode: code.closest<HTMLElement>('[data-inline-copy]')?.dataset.inlineCopy
+  })) {
+    return null
+  }
   if (!code.classList.contains('vp-pro-inline-copy')) return null
-  if (code.closest('pre')) return null
 
   return code
 }
@@ -159,7 +165,22 @@ export function syncInlineCodeCopyTargets(root: ParentNode = document): void {
   const inlineCodes = root.querySelectorAll<HTMLElement>('.vp-doc code')
 
   for (const code of inlineCodes) {
-    if (code.closest('pre')) continue
+    if (!shouldRegisterInlineCopyTarget({
+      isInsidePre: Boolean(code.closest('pre')),
+      inlineCopyMode: code.closest<HTMLElement>('[data-inline-copy]')?.dataset.inlineCopy
+    })) {
+      code.classList.remove('vp-pro-inline-copy')
+      if (code.getAttribute('role') === 'button') {
+        code.removeAttribute('role')
+      }
+      if (code.getAttribute('tabindex') === '0') {
+        code.removeAttribute('tabindex')
+      }
+      if (code.getAttribute('title') === '点击复制') {
+        code.removeAttribute('title')
+      }
+      continue
+    }
 
     code.classList.add('vp-pro-inline-copy')
 

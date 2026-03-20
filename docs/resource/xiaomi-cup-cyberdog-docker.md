@@ -44,18 +44,32 @@ description: cyberdog_sim Docker 镜像的下载、导入、图形授权、仿�
 
 下载镜像文件：
 
-<Tabs default-value="baidu" label="下载地址">
-  <Tab value="baidu" label="百度网盘" icon="mdi:cloud-download">
-    <FileTree>
-      <FileTreeFile name="cyberdog_raceV2.tar（提取码：zxwg）" href="https://pan.baidu.com/s/1FHPks2QdmCywGyVa1Et5TQ?pwd=zxwg" icon="mdi:archive-outline" />
+<DownloadTabs
+  title="网盘下载"
+  :providers="[
+    { value: 'baidu', description: '主下载线路。' },
+    { value: '123pan', label: '123网盘', description: '备用下载线路。' }
+  ]"
+>
+  <template #default="{ provider }">
+    <FileTree :provider="provider?.alias || ''" :show-header="false">
+      <FileTreeFile
+        name="cyberdog_raceV2.tar"
+        size="11.0 GB"
+        :links="{
+          baidu: {
+            href: 'https://pan.baidu.com/s/1FHPks2QdmCywGyVa1Et5TQ?pwd=zxwg',
+            extractionCode: 'zxwg'
+          },
+          '123网盘': {
+            href: 'https://www.123865.com/s/GoDdjv-E15UA?pwd=dWkW#',
+            extractionCode: 'dWkW'
+          }
+        }"
+      />
     </FileTree>
-  </Tab>
-  <Tab value="123" label="123网盘" icon="mdi:cloud-download">
-    <FileTree>
-      <FileTreeFile name="cyberdog_raceV2.tar（提取码：dWkW）" href="https://www.123865.com/s/GoDdjv-E15UA?pwd=dWkW#" icon="mdi:archive-outline" />
-    </FileTree>
-  </Tab>
-</Tabs>
+  </template>
+</DownloadTabs>
 
 ## 六、本地导入 Docker 镜像
 

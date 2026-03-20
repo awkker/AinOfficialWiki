@@ -124,11 +124,11 @@ const EXTENSION_ICON_MAP: Record<string, string> = {
   wav: 'mdi:file-music',
   flac: 'mdi:file-music',
   aac: 'mdi:file-music',
-  zip: 'mdi:folder-zip-outline',
-  rar: 'mdi:folder-zip-outline',
-  '7z': 'mdi:folder-zip-outline',
-  tar: 'mdi:folder-zip-outline',
-  gz: 'mdi:folder-zip-outline'
+  zip: 'mdi:zip-box-outline',
+  rar: 'mdi:zip-box-outline',
+  '7z': 'mdi:zip-box-outline',
+  tar: 'mdi:zip-box-outline',
+  gz: 'mdi:zip-box-outline'
 }
 
 const LANGUAGE_ICON_MAP: Record<string, string> = {
