@@ -535,13 +535,6 @@ export default defineConfig({
           ]
         },
         {
-          text: '前端开发',
-          items: [
-            { text: 'Web 预习', link: '/handouts/lesson4_weblearn' },
-            { text: 'HTML/CSS/JavaScript入门', link: '/handouts/lesson4-html_and_css' }
-          ]
-        },
-        {
           text: 'SRE基础',
           items: [
             {
