@@ -710,7 +710,8 @@ export default defineConfig({
             { text: 'Photoshop 2025 安装指南', link: '/resource/photoshop-2025-installation' },
             { text: 'Blender 安装教程', link: '/resource/blender-installation' },
             { text: 'Blender 插件安装教程', link: '/resource/blender-addon-installation' },
-            { text: 'MATLAB 2024b 安装教程', link: '/resource/matlab-2024b-installation' }
+            { text: 'MATLAB 2024b 安装教程', link: '/resource/matlab-2024b-installation' },
+            { text: 'Windows 11 怎么玩 4399 Flash 小游戏？两种干净办法', link: '/resource/win11-clean-flash-4399' }
           ]
         },
         {
